@@ -4,9 +4,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';
 
-type Props = {};
-
-const LandingPageNavBar = (props: Props) => {
+const LandingPageNavBar = () => {
   return (
     <div className="flex w-full justify-between items-center">
       <div className="text-3xl font-semibold flex items-center gap-x-3">
@@ -34,7 +32,7 @@ const LandingPageNavBar = (props: Props) => {
           Pricing
         </Link>
       </div>
-      <Link href="/auth/signin">
+      <Link href="/auth/sign-in">
         <Button className="text-base flex gap-x-2">
           <User fill="#000" />
           Login
