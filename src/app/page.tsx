@@ -1,101 +1,49 @@
-import Image from "next/image";
+import React from 'react';
+import HeaderLanding from '@/components/landing/HeaderLanding';
+import HeroSectionLanding from '@/components/landing/HeroSectionLanding';
+import FeatureSectionLanding from '@/components/landing/FeatureLanding';
+import TestimonialSectionLanding from '@/components/landing/TestimonialLanding';
+import CallToActionSectionLanding from '@/components/landing/CallToActionLanding';
+import FooterLanding from '@/components/landing/FooterLanding';
 
-export default function Home() {
+const App: React.FC = () => {
+  const features = [
+    {
+      icon: 'https://cdn.builder.io/api/v1/image/assets/TEMP/f8f159617923c695f0a8fec5d38948baddd0571dfed9338f816411e211898027?placeholderIfAbsent=true&apiKey=239c753944c648dcbfa88d3ccbad7206',
+      title: 'Instant Sharing',
+      description:
+        'Share your videos with just a click, reaching your audience faster than ever.',
+    },
+    {
+      icon: 'https://cdn.builder.io/api/v1/image/assets/TEMP/2b09f9e7415418aff1d2dacee1b1484738bc04b08bfb46e9261767d9e11f923d?placeholderIfAbsent=true&apiKey=239c753944c648dcbfa88d3ccbad7206',
+      title: 'User-Friendly',
+      description:
+        'Our intuitive interface ensures anyone can create and share videos effortlessly.',
+    },
+  ];
+
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
+    <div className="flex overflow-hidden flex-col">
+      <HeaderLanding logo="https://cdn.builder.io/api/v1/image/assets/TEMP/9d90590a20b8c68f3f09fcd418b08390813563227dd799ca509bc663f81bd2c4?placeholderIfAbsent=true&apiKey=239c753944c648dcbfa88d3ccbad7206" />
+      <main>
+        <HeroSectionLanding heroImage="https://cdn.builder.io/api/v1/image/assets/TEMP/7b645bbc0a002429fd3eeacc3e3c30c8a60dcbdc3f79896f169e7352223c740d?placeholderIfAbsent=true&apiKey=239c753944c648dcbfa88d3ccbad7206" />
+        <FeatureSectionLanding
+          sectionImage="https://cdn.builder.io/api/v1/image/assets/TEMP/8d977f1f0ccfec0f28827d40599b147347b4b4efe87fda3e4d86b8af43b881f3?placeholderIfAbsent=true&apiKey=239c753944c648dcbfa88d3ccbad7206"
+          features={features}
         />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
-
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
-        </div>
+        <TestimonialSectionLanding
+          testimonialImage="https://cdn.builder.io/api/v1/image/assets/TEMP/384c663dd618e35b2dc6d4c1d51978302b7fea37321c379d98cd3d9388e75726?placeholderIfAbsent=true&apiKey=239c753944c648dcbfa88d3ccbad7206"
+          rating={5}
+          quote="Using this web application transformed our outreach strategy. The instant video sharing has significantly boosted our engagement with prospects!"
+          author="Jane Doe"
+          position="Sales Manager, TechCorp"
+          companyLogo="https://cdn.builder.io/api/v1/image/assets/TEMP/8bfeb3789376f88de1bb1500993a1a156bfd58854a8f7782bdb6a5f5d7e6abe4?placeholderIfAbsent=true&apiKey=239c753944c648dcbfa88d3ccbad7206"
+        />
+        <CallToActionSectionLanding />
       </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+      <FooterLanding />
     </div>
   );
-}
+};
+
+export default App;
