@@ -1,10 +1,7 @@
 import { onAuthenticateUser } from '@/actions/user';
 import { redirect } from 'next/navigation';
-import React from 'react';
 
-type Props = {};
-
-const DashboardPage = async (props: Props) => {
+const DashboardPage = async () => {
   const auth = await onAuthenticateUser();
 
   if (auth.status === 200 || auth.status === 201)
