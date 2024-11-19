@@ -125,7 +125,7 @@ export const getWorkSpaces = async () => {
     const user = await currentUser();
     if (!user) return { status: 404 };
 
-    const workspaces = await client.user.findMany({
+    const workspaces = await client.user.findUnique({
       where: {
         clerkid: user.id,
       },
@@ -156,7 +156,7 @@ export const getWorkSpaces = async () => {
       },
     });
 
-    if (workspaces && workspaces.length)
+    if (workspaces)
       return { status: 200, data: workspaces };
 
     return { status: 404, data: [] };

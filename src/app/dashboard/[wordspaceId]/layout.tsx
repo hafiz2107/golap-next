@@ -19,7 +19,9 @@ type Props = {
   children: React.ReactNode;
 };
 
-const Layout = async ({ children, params: { wordspaceId } }: Props) => {
+const Layout = async ({ children, params }: Props) => {
+  const { wordspaceId } = await params;
+
   const auth = await onAuthenticateUser();
 
   if (!auth.user?.workspace || !auth.user?.workspace.length)
@@ -36,21 +38,21 @@ const Layout = async ({ children, params: { wordspaceId } }: Props) => {
   const query = new QueryClient();
 
   await query.prefetchQuery({
-    queryKey: ['workspace-folders', wordspaceId],
+    queryKey: ['workspace-folders'],
     queryFn: () => getWorkspaceFolders(wordspaceId),
   });
 
   await query.prefetchQuery({
-    queryKey: ['user-videos', wordspaceId],
+    queryKey: ['user-videos'],
     queryFn: () => getAllUserVideos(wordspaceId),
   });
 
   await query.prefetchQuery({
-    queryKey: ['user-workspaces', wordspaceId],
+    queryKey: ['user-workspaces'],
     queryFn: () => getWorkSpaces(),
   });
   await query.prefetchQuery({
-    queryKey: ['user-notifications', wordspaceId],
+    queryKey: ['user-notifications'],
     queryFn: () => getNotifications(),
   });
 
