@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 'use server';
 
 import { client } from '@/lib/prisma';
@@ -24,6 +25,7 @@ export const onAuthenticateUser = async () => {
     });
 
     if (userExist) return { status: 200, user: userExist };
+
     const newUser = await client.user.create({
       data: {
         clerkid: user.id,
@@ -66,5 +68,33 @@ export const onAuthenticateUser = async () => {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
   } catch (err) {
     return { status: 500 };
+  }
+};
+
+export const getNotifications = async () => {
+  try {
+    const user = await currentUser();
+    if (!user) return { status: 404 };
+
+    const notifications = await client.user.findUnique({
+      where: {
+        clerkid: user.id,
+      },
+      select: {
+        notification: true,
+        _count: {
+          select: {
+            notification: true,
+          },
+        },
+      },
+    });
+
+    if (notifications && notifications.notification.length)
+      return { status: 200, data: notifications };
+
+    return { status: 404, data: [] };
+  } catch (err) {
+    return { status: 500, data: [] };
   }
 };
