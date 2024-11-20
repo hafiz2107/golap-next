@@ -156,12 +156,54 @@ export const getWorkSpaces = async () => {
       },
     });
 
-    if (workspaces)
-      return { status: 200, data: workspaces };
+    if (workspaces) return { status: 200, data: workspaces };
 
     return { status: 404, data: [] };
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
   } catch (_error) {
     return { status: 500, data: [] };
+  }
+};
+
+export const createWorkspace = async (name: string) => {
+  try {
+    const user = await currentUser();
+    if (!user) return { status: 404 };
+
+    const autherized = await client.user.findUnique({
+      where: {
+        clerkid: user.id,
+      },
+      select: {
+        subscription: {
+          select: {
+            plan: true,
+          },
+        },
+      },
+    });
+
+    if (autherized?.subscription?.plan === 'PRO') {
+      const workSpace = await client.user.update({
+        where: {
+          clerkid: user.id,
+        },
+        data: {
+          workspace: {
+            create: {
+              name,
+              type: 'PUBLIC',
+            },
+          },
+        },
+      });
+      if (workSpace) {
+        return { status: 201, data: 'Workspace created' };
+      }
+    }
+
+    return { status: 401, data: 'You are not autherised to create a user' };
+  } catch (error) {
+    return { status: 500, data: '' };
   }
 };
