@@ -7,9 +7,24 @@ import React from 'react';
 import Folder from './folder';
 import { useQueryData } from '@/hooks/useQueryData';
 import { getWorkspaceFolders } from '@/actions/workspace';
+import { useMutationDataState } from '@/hooks/useMutationData';
 
 type Props = {
   workspaceId: string;
+};
+
+export type FoldersProps = {
+  status: number;
+  data: ({
+    _count: {
+      videos: number;
+    };
+  } & {
+    id: string;
+    name: string;
+    createdAt: Date;
+    workspaceId: string | null;
+  })[];
 };
 
 const Folders = ({ workspaceId }: Props) => {
@@ -17,6 +32,13 @@ const Folders = ({ workspaceId }: Props) => {
   const { data, isFetched } = useQueryData(['workspace-folders'], () => {
     getWorkspaceFolders(workspaceId);
   });
+
+  const { latestVariable } = useMutationDataState(['create-folder']);
+
+  const { data: folders, status } = data as FoldersProps;
+
+  if (isFetched && folders) {
+  }
 
   return (
     <div className="flex flex-col gap-4">
