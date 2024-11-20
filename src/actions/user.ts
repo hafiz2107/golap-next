@@ -135,3 +135,60 @@ export const searchUsers = async (query: string) => {
     return { status: 500, data: undefined };
   }
 };
+
+export const searchInfobar = async (query: string, workspaceId: string) => {
+  try {
+    const user = await currentUser();
+    if (!user) return { status: 401 };
+
+    const users = await client.user.findMany({
+      where: {
+        OR: [
+          { firstname: { contains: query } },
+          { email: { contains: query } },
+          {
+            lastname: { contains: query },
+          },
+        ],
+        NOT: [{ clerkid: user.id }],
+      },
+      select: {
+        id: true,
+        firstname: true,
+        lastname: true,
+        image: true,
+        email: true,
+      },
+      take: 3,
+    });
+
+    const folders = await client.folder.findMany({
+      where: { workSpaceId: workspaceId, name: { contains: query } },
+      select: {
+        name: true,
+        id: true,
+      },
+    });
+
+    if ((users && users.length) || (folders && folders.length))
+      return {
+        status: 200,
+        data: {
+          users,
+          folders,
+        },
+      };
+
+    if (!users && !folders) {
+      return {
+        status: 404,
+        data: undefined,
+      };
+    }
+  } catch (err) {
+    return {
+      status: 500,
+      data: undefined,
+    };
+  }
+};

@@ -102,24 +102,24 @@ const Sidebar = ({ activeWorkspaceId }: Props) => {
       </Select>
       {/* {currentWorkspace?.type === 'PUBLIC' &&
         workspace.subscription?.plan === 'PRO' && ( */}
-          <Modal
-            trigger={
-              <span className="text-sm cursor-pointer flex items-center justify-center bg-neutral-800/70 hover:bg-neutral-800/60 w-full rounded-sm p-[5px] gap-2">
-                <PlusCircle
-                  size={15}
-                  className="text-neutral-800/90 fill-neutral-500"
-                />
-                <span className="text-neutral-400 font-bold text-xs">
-                  Invite to workspace
-                </span>
-              </span>
-            }
-            title="Invite to workspace"
-            description="Invite other users to your workspace"
-          >
-            <Search workspaceId={activeWorkspaceId} />
-          </Modal>
-        {/*  )} */}
+      <Modal
+        trigger={
+          <span className="text-sm cursor-pointer flex items-center justify-center bg-neutral-800/70 hover:bg-neutral-800/60 w-full rounded-sm p-[5px] gap-2">
+            <PlusCircle
+              size={15}
+              className="text-neutral-800/90 fill-neutral-500"
+            />
+            <span className="text-neutral-400 font-bold text-xs">
+              Invite to workspace
+            </span>
+          </span>
+        }
+        title="Invite to workspace"
+        description="Invite other users to your workspace"
+      >
+        <Search workspaceId={activeWorkspaceId} />
+      </Modal>
+      {/*  )} */}
       <p className="w-full text-[#9D9D9D] font-bold mt-4">Menu</p>
       <nav className="w-full">
         <ul>
@@ -223,7 +223,7 @@ const Sidebar = ({ activeWorkspaceId }: Props) => {
   return (
     <div className="full">
       {/* Info bar */}
-      <InfoBar />
+      <InfoBar workspaceId={activeWorkspaceId} />
       <div className="md:hidden fixed my-4 ">
         <Sheet>
           <SheetTrigger asChild className="ml-2">
