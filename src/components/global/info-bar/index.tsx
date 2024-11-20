@@ -1,7 +1,10 @@
 import { Input } from '@/components/ui/input';
-import { Search } from 'lucide-react';
+import { Search, UploadIcon } from 'lucide-react';
 import React, { useState } from 'react';
 import InfoBarSearch from '../search/info-bar-search';
+import { Button } from '@/components/ui/button';
+import VideoRecorderIcon from '@/components/icons/video-recorder';
+import { UserButton } from '@clerk/nextjs';
 
 type Props = {
   workspaceId: string;
@@ -26,6 +29,17 @@ const InfoBar = ({ workspaceId }: Props) => {
         setOpen={setSearchBoxOpen}
         workspaceId={workspaceId}
       />
+      <div className="flex items-center gap-4">
+        <Button className="bg-[#9D9D9D] flex items-center gap-2s">
+          <UploadIcon size={20} />{' '}
+          <span className="flex items-center gap-2">Upload</span>
+        </Button>
+        <Button className="bg-[#9D9D9D] flex items-center gap-2s">
+          <VideoRecorderIcon />
+          <span className="flex items-center gap-2">Record</span>
+        </Button>
+        <UserButton />
+      </div>
     </header>
   );
 };
