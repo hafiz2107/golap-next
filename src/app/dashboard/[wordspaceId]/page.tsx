@@ -1,7 +1,7 @@
 import React from 'react';
 
 const WorkspaceDetailsPage = () => {
-  return <div>WorkspaceDetailsPage</div>;
+  return;
 };
 
 export default WorkspaceDetailsPage;

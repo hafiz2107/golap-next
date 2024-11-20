@@ -17,17 +17,29 @@ import Image from 'next/image';
 import { usePathname, useRouter } from 'next/navigation';
 import React from 'react';
 import Modal from '../modal';
-import { PlusCircle } from 'lucide-react';
+import { Menu, PlusCircle } from 'lucide-react';
 import Search from '../search';
 import { MENU_ITEMS } from '@/contants';
 import SidebarItem from './sidebar-item';
 import { useQueryData } from '@/hooks/useQueryData';
 import { getNotifications } from '@/actions/user';
+import WorkspacePlaceholder from './workspace-placeholder';
+import GlobalCard from '../global-card';
+import { Button } from '@/components/ui/button';
+import Loader from '../loader';
+import {
+  Sheet,
+  SheetContent,
+  SheetTitle,
+  SheetTrigger,
+} from '@/components/ui/sheet';
+import InfoBar from '../info-bar';
 
 type Props = {
   activeWorkspaceId: string;
 };
 
+//TODO:Add payments action to upgrade button
 const Sidebar = ({ activeWorkspaceId }: Props) => {
   const router = useRouter();
   const pathName = usePathname();
@@ -50,7 +62,7 @@ const Sidebar = ({ activeWorkspaceId }: Props) => {
     (val) => val.id === activeWorkspaceId
   );
 
-  return (
+  const SidebarSection = (
     <div className="bg-[#111111] flex-none relative p-4 h-full w-[250px] flex flex-col gap-4 items-center overflow-hidden">
       <div className="bg-[#111111] p-4 flex gap-2 justify-center items-center mb-4 absolute top-0 left-0 right-0">
         <Image src="/golap-logo.svg" height={40} width={40} alt="logo" />
@@ -88,9 +100,8 @@ const Sidebar = ({ activeWorkspaceId }: Props) => {
           </SelectGroup>
         </SelectContent>
       </Select>
-
-      {currentWorkspace?.type === 'PUBLIC' &&
-        workspace.subscription?.plan === 'PRO' && (
+      {/* {currentWorkspace?.type === 'PUBLIC' &&
+        workspace.subscription?.plan === 'PRO' && ( */}
           <Modal
             trigger={
               <span className="text-sm cursor-pointer flex items-center justify-center bg-neutral-800/70 hover:bg-neutral-800/60 w-full rounded-sm p-[5px] gap-2">
@@ -108,8 +119,7 @@ const Sidebar = ({ activeWorkspaceId }: Props) => {
           >
             <Search workspaceId={activeWorkspaceId} />
           </Modal>
-        )}
-
+        {/*  )} */}
       <p className="w-full text-[#9D9D9D] font-bold mt-4">Menu</p>
       <nav className="w-full">
         <ul>
@@ -130,6 +140,104 @@ const Sidebar = ({ activeWorkspaceId }: Props) => {
           ))}
         </ul>
       </nav>
+      {!!workspace.workspace.length && (
+        <>
+          <Separator className="w-4/5" />
+          <p className="w-full text-[#9D9D9D] font-bold mt-4">Workspaces</p>
+          {workspace.workspace.length === 1 &&
+            workspace.members.length === 0 && (
+              <div className="w-full mt-[-10px]">
+                <p className="text-[#9D9D9D] font-medium text-sm">
+                  {workspace.subscription?.plan === 'FREE'
+                    ? 'Upgrade to create workspaces'
+                    : 'No workspaces'}
+                </p>
+              </div>
+            )}
+
+          <nav className="w-full">
+            <ul className="h-fit max-h-[130px] overflow-auto overflow-x-hidden fade-layer">
+              {workspace.workspace.map(
+                (item) =>
+                  item.type === 'PERSONAL' && (
+                    <SidebarItem
+                      href={`/dashboard/${item.id}`}
+                      selected={pathName === `/dashboard/${item.id}`}
+                      title={item.name}
+                      notifications={0}
+                      key={item.name}
+                      icon={
+                        <WorkspacePlaceholder>
+                          {item.name.charAt(0)}
+                        </WorkspacePlaceholder>
+                      }
+                    />
+                  )
+              )}
+              {!!workspace.members.length &&
+                workspace.members.map((item) => (
+                  <SidebarItem
+                    href={`/dashboard/${item.Workspace.id}`}
+                    selected={pathName === `/dashboard/${item.Workspace.id}`}
+                    title={item.Workspace.name}
+                    notifications={0}
+                    key={item.Workspace.id}
+                    icon={
+                      <WorkspacePlaceholder>
+                        {item.Workspace.name.charAt(0)}
+                      </WorkspacePlaceholder>
+                    }
+                  />
+                ))}
+            </ul>
+          </nav>
+        </>
+      )}
+
+      {/* TODO:Make responsive when memeber workspace is there */}
+      {/* {!!workspace.members.length && (
+        <>
+          <Separator />
+          <p className="w-full text-[#9D9D9D] font-bold mt-4">
+            Other Workspaces
+          </p>
+          <nav className="w-full">
+            <ul className="h-[150px] overflow-auto overflow-x-hidden fade-layer"></ul>
+          </nav>
+        </>
+      )} */}
+      <Separator className="w-4/5" />
+      {workspace.subscription?.plan === 'FREE' && (
+        <GlobalCard
+          title="Upgrade to Pro"
+          description="Unlock AI features like transcription, AI summary and more."
+        >
+          <Button className="text-sm w-full mt-2">
+            <Loader>Upgrade</Loader>
+          </Button>
+        </GlobalCard>
+      )}
+    </div>
+  );
+
+  return (
+    <div className="full">
+      {/* Info bar */}
+      <InfoBar />
+      <div className="md:hidden fixed my-4 ">
+        <Sheet>
+          <SheetTrigger asChild className="ml-2">
+            <Button variant={'ghost'} className="mt-[2px]">
+              <Menu />
+            </Button>
+          </SheetTrigger>
+          <SheetContent side={'left'} className="p-0 w-fit h-full">
+            <SheetTitle className="hidden"></SheetTitle>
+            {SidebarSection}
+          </SheetContent>
+        </Sheet>
+      </div>
+      <div className="hidden md:block h-full">{SidebarSection}</div>
     </div>
   );
 };

@@ -62,7 +62,6 @@ const Layout = async ({ children, params }: Props) => {
         <Sidebar activeWorkspaceId={wordspaceId} />
         {children}
       </div>
-      ;
     </HydrationBoundary>
   );
 };

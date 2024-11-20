@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { useQueryData } from './useQueryData';
+
 import { searchUsers } from '@/actions/user';
+import { useQueryData } from './useQueryData';
 
 export const useSearch = (key: string, type: 'WORKSPACE' | 'USERS') => {
   const [query, setQuery] = useState('');
@@ -24,7 +25,7 @@ export const useSearch = (key: string, type: 'WORKSPACE' | 'USERS') => {
   useEffect(() => {
     const delayInputTimeoutId = setTimeout(() => {
       setDebounce(query);
-    }, 1000);
+    }, 300);
     return () => clearTimeout(delayInputTimeoutId);
   }, [query]);
 

@@ -7,6 +7,7 @@ import { useSearch } from '@/hooks/useSearch';
 import { User, UserPlus } from 'lucide-react';
 import React from 'react';
 import Loader from '../loader';
+import { Search as SearchIcon } from 'lucide-react';
 
 type Props = {
   workspaceId: string;
