@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { userQueryData } from './userQueryData';
+import { useQueryData } from './useQueryData';
 import { searchUsers } from '@/actions/user';
 
 export const useSearch = (key: string, type: 'WORKSPACE' | 'USERS') => {
@@ -28,7 +28,7 @@ export const useSearch = (key: string, type: 'WORKSPACE' | 'USERS') => {
     return () => clearTimeout(delayInputTimeoutId);
   }, [query]);
 
-  const { refetch, isFetching } = userQueryData(
+  const { refetch, isFetching } = useQueryData(
     [key, debounce],
     async ({ queryKey }) => {
       if (type === 'USERS') {

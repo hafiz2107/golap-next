@@ -11,14 +11,18 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { Separator } from '@/components/ui/separator';
-import { userQueryData } from '@/hooks/userQueryData';
-import { WorkspaceProps } from '@/types/index.type';
+
+import { NotificationProps, WorkspaceProps } from '@/types/index.type';
 import Image from 'next/image';
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import React from 'react';
 import Modal from '../modal';
 import { PlusCircle } from 'lucide-react';
 import Search from '../search';
+import { MENU_ITEMS } from '@/contants';
+import SidebarItem from './sidebar-item';
+import { useQueryData } from '@/hooks/useQueryData';
+import { getNotifications } from '@/actions/user';
 
 type Props = {
   activeWorkspaceId: string;
@@ -26,13 +30,25 @@ type Props = {
 
 const Sidebar = ({ activeWorkspaceId }: Props) => {
   const router = useRouter();
+  const pathName = usePathname();
 
-  const { data, isFetched } = userQueryData(['user-workspaces'], getWorkSpaces);
+  const { data, isFetched } = useQueryData(['user-workspaces'], getWorkSpaces);
+  const menuItems = MENU_ITEMS(activeWorkspaceId);
+
+  const { data: notifications } = useQueryData(
+    ['user-notifications'],
+    getNotifications
+  );
 
   const { data: workspace } = data as WorkspaceProps;
+  const { data: count } = notifications as NotificationProps;
 
   const onChangeActiveWorkspace = (value: string) =>
     router.push(`/dashboard/${value}`);
+
+  const currentWorkspace = workspace?.workspace?.find(
+    (val) => val.id === activeWorkspaceId
+  );
 
   return (
     <div className="bg-[#111111] flex-none relative p-4 h-full w-[250px] flex flex-col gap-4 items-center overflow-hidden">
@@ -72,23 +88,48 @@ const Sidebar = ({ activeWorkspaceId }: Props) => {
           </SelectGroup>
         </SelectContent>
       </Select>
-      <Modal
-        trigger={
-          <span className="text-sm cursor-pointer flex items-center justify-center bg-neutral-800/70 hover:bg-neutral-800/60 w-full rounded-sm p-[5px] gap-2">
-            <PlusCircle
-              size={15}
-              className="text-neutral-800/90 fill-neutral-500"
+
+      {currentWorkspace?.type === 'PUBLIC' &&
+        workspace.subscription?.plan === 'PRO' && (
+          <Modal
+            trigger={
+              <span className="text-sm cursor-pointer flex items-center justify-center bg-neutral-800/70 hover:bg-neutral-800/60 w-full rounded-sm p-[5px] gap-2">
+                <PlusCircle
+                  size={15}
+                  className="text-neutral-800/90 fill-neutral-500"
+                />
+                <span className="text-neutral-400 font-bold text-xs">
+                  Invite to workspace
+                </span>
+              </span>
+            }
+            title="Invite to workspace"
+            description="Invite other users to your workspace"
+          >
+            <Search workspaceId={activeWorkspaceId} />
+          </Modal>
+        )}
+
+      <p className="w-full text-[#9D9D9D] font-bold mt-4">Menu</p>
+      <nav className="w-full">
+        <ul>
+          {menuItems.map((item) => (
+            <SidebarItem
+              key={item.title}
+              icon={item.icon}
+              href={item.href}
+              selected={pathName === item.href}
+              title={item.title}
+              notifications={
+                (item.title === 'Notifications' &&
+                  count._count &&
+                  count._count.notification) ||
+                0
+              }
             />
-            <span className="text-neutral-400 font-bold text-xs">
-              Invite to workspace
-            </span>
-          </span>
-        }
-        title="Invite to workspace"
-        description="Invite other users to your workspace"
-      >
-        <Search workspaceId={activeWorkspaceId} />
-      </Modal>
+          ))}
+        </ul>
+      </nav>
     </div>
   );
 };
