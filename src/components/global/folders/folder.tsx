@@ -16,6 +16,7 @@ import {
   ContextMenuTrigger,
 } from '@/components/ui/context-menu';
 import { FolderPen, Trash } from 'lucide-react';
+import { QueryKeys } from '@/contants/query-keys';
 
 type Props = {
   name: string;
@@ -33,14 +34,14 @@ const Folder = ({ id, name, count, optimistic }: Props) => {
   const folderCardRef = useRef<HTMLDivElement | null>(null);
 
   const { mutate } = useMutationData(
-    ['rename-folders'],
+    [QueryKeys.dashboard.renameFolder],
     (data: { name: string; id: string }) => renameFolders(id, data.name),
-    'workspace-folders',
+    QueryKeys.dashboard.workspaceFolders,
     Renamed
   );
 
   const { latestVariables: latestFolderName } = useMutationDataState([
-    'rename-folders',
+    QueryKeys.dashboard.renameFolder,
   ]);
 
   const pathName = usePathname();

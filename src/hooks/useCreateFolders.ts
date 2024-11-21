@@ -1,11 +1,12 @@
 import { createFolder } from '@/actions/workspace';
 import { useMutationData } from './useMutationData';
+import { QueryKeys } from '@/contants/query-keys';
 
 export const useCreateFolders = (workspaceId: string) => {
   const { mutate } = useMutationData(
-    ['create-folder'],
+    [QueryKeys.dashboard.createFolder],
     () => createFolder(workspaceId),
-    'workspace-folders'
+    QueryKeys.dashboard.workspaceFolders
   );
 
   const onCreateNewFolder = () =>

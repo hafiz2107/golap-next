@@ -8,6 +8,7 @@ import Folder from './folder';
 import { useQueryData } from '@/hooks/useQueryData';
 import { getWorkspaceFolders } from '@/actions/workspace';
 import { useMutationDataState } from '@/hooks/useMutationData';
+import { QueryKeys } from '@/contants/query-keys';
 
 type Props = {
   workspaceId: string;
@@ -29,11 +30,14 @@ export type FoldersProps = {
 
 const Folders = ({ workspaceId }: Props) => {
   //Get Folders in currenet workspace
-  const { data, isFetched } = useQueryData(['workspace-folders'], () =>
-    getWorkspaceFolders(workspaceId)
+  const { data, isFetched } = useQueryData(
+    [QueryKeys.dashboard.workspaceFolders],
+    () => getWorkspaceFolders(workspaceId)
   );
 
-  const { latestVariables } = useMutationDataState(['create-folder']);
+  const { latestVariables } = useMutationDataState([
+    QueryKeys.dashboard.createFolder,
+  ]);
 
   const { data: folders, status } = data as FoldersProps;
 

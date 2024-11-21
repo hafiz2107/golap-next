@@ -7,11 +7,13 @@ import Modal from '../modal';
 import { Button } from '@/components/ui/button';
 import FolderPlusDuotone from '@/components/icons/folder-plus-duotone';
 import WorkspaceForm from '@/components/forms/workspace-form';
+import { QueryKeys } from '@/contants/query-keys';
 
-type Props = {};
-
-const CreateWorkspace = (props: Props) => {
-  const { data } = useQueryData(['user-workspaces'], getWorkSpaces);
+const CreateWorkspace = () => {
+  const { data } = useQueryData(
+    [QueryKeys.dashboard.userWorkspaces],
+    getWorkSpaces
+  );
 
   const { data: plan } = data as {
     status: number;

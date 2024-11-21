@@ -14,6 +14,7 @@ import {
 } from '@tanstack/react-query';
 import Sidebar from '@/components/global/sidebar';
 import GlobalHeader from '@/components/global/global-header';
+import { QueryKeys } from '@/contants/query-keys';
 
 type Props = {
   params: { workspaceId: string };
@@ -39,21 +40,21 @@ const Layout = async ({ children, params }: Props) => {
   const query = new QueryClient();
 
   await query.prefetchQuery({
-    queryKey: ['workspace-folders'],
+    queryKey: [QueryKeys.dashboard.workspaceFolders],
     queryFn: () => getWorkspaceFolders(workspaceId),
   });
 
   await query.prefetchQuery({
-    queryKey: ['user-videos'],
+    queryKey: [QueryKeys.dashboard.userVideos],
     queryFn: () => getAllUserVideos(workspaceId),
   });
 
   await query.prefetchQuery({
-    queryKey: ['user-workspaces'],
+    queryKey: [QueryKeys.dashboard.userWorkspaces],
     queryFn: () => getWorkSpaces(),
   });
   await query.prefetchQuery({
-    queryKey: ['user-notifications'],
+    queryKey: [QueryKeys.dashboard.userNotifications],
     queryFn: () => getNotifications(),
   });
 
