@@ -2,10 +2,10 @@
 
 import { cn } from '@/lib/utils';
 import { usePathname, useRouter } from 'next/navigation';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import Loader from '../loader';
 import FolderDuotone from '@/components/icons/folder-duotone';
-import { useMutationData } from '@/hooks/useMutationData';
+import { useMutationData, useMutationDataState } from '@/hooks/useMutationData';
 import { renameFolders } from '@/actions/workspace';
 import { Input } from '@/components/ui/input';
 import {
@@ -32,12 +32,16 @@ const Folder = ({ id, name, count, optimistic }: Props) => {
   const inputRef = useRef<HTMLInputElement | null>(null);
   const folderCardRef = useRef<HTMLDivElement | null>(null);
 
-  const { isPending, mutate } = useMutationData(
+  const { mutate } = useMutationData(
     ['rename-folders'],
     (data: { name: string; id: string }) => renameFolders(id, data.name),
     'workspace-folders',
     Renamed
   );
+
+  const { latestVariables: latestFolderName } = useMutationDataState([
+    'rename-folders',
+  ]);
 
   const pathName = usePathname();
   const router = useRouter();
@@ -54,10 +58,10 @@ const Folder = ({ id, name, count, optimistic }: Props) => {
     Rename();
   };
 
-  const updateFolderName: React.FocusEventHandler<HTMLInputElement> = (e) => {
+  const updateFolderName: React.FocusEventHandler<HTMLInputElement> = () => {
     if (inputRef.current) {
       if (inputRef.current.value) {
-        mutate({ name: inputRef.current.value });
+        mutate({ name: inputRef.current.value, id });
       } else {
         Renamed();
       }
@@ -70,7 +74,6 @@ const Folder = ({ id, name, count, optimistic }: Props) => {
         <div
           ref={folderCardRef}
           onClick={handleFolderClick}
-          onContextMenu={() => console.log('first')}
           className={cn(
             optimistic && 'opacity-60',
             'flex hover:bg-neutral-800 cursor-pointer transition duration-150 items-center gap-2 justify-between min-w-[250px] py-4 px-4 rounded-lg border-[1px]'
@@ -92,12 +95,16 @@ const Folder = ({ id, name, count, optimistic }: Props) => {
                   className="text-neutral-300 font-semibold"
                   onDoubleClick={handleFolderRename}
                 >
-                  {name}
+                  {latestFolderName &&
+                  latestFolderName.status === 'pending' &&
+                  latestFolderName.variables.id === id
+                    ? latestFolderName.variables.name
+                    : name}
                 </p>
               )}
 
               <span className="text-sm text-neutral-500 font-semibold">
-                {count || 0} videos
+                {count || 0} {count && count > 1 ? 'videos' : 'video'}
               </span>
             </div>
           </Loader>
