@@ -182,13 +182,13 @@ export const searchInfobar = async (query: string, workspaceId: string) => {
     if (!users && !folders) {
       return {
         status: 404,
-        data: undefined,
+        data: [],
       };
     }
   } catch (err) {
     return {
       status: 500,
-      data: undefined,
+      data: [],
     };
   }
 };

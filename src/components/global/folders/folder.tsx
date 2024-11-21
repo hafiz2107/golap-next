@@ -2,12 +2,20 @@
 
 import { cn } from '@/lib/utils';
 import { usePathname, useRouter } from 'next/navigation';
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Loader from '../loader';
 import FolderDuotone from '@/components/icons/folder-duotone';
 import { useMutationData } from '@/hooks/useMutationData';
 import { renameFolders } from '@/actions/workspace';
 import { Input } from '@/components/ui/input';
+import {
+  ContextMenu,
+  ContextMenuContent,
+  ContextMenuItem,
+  ContextMenuShortcut,
+  ContextMenuTrigger,
+} from '@/components/ui/context-menu';
+import { FolderPen, Trash } from 'lucide-react';
 
 type Props = {
   name: string;
@@ -26,7 +34,7 @@ const Folder = ({ id, name, count, optimistic }: Props) => {
 
   const { isPending, mutate } = useMutationData(
     ['rename-folders'],
-    (data: { name: string }) => renameFolders(id, name),
+    (data: { name: string }) => renameFolders(id, data.name),
     'workspace-folders',
     Renamed
   );
@@ -41,61 +49,75 @@ const Folder = ({ id, name, count, optimistic }: Props) => {
   const handleFolderRename = (
     e: React.MouseEvent<HTMLParagraphElement, MouseEvent>
   ) => {
-    //TODO Rename functionality
     e.stopPropagation();
     Rename();
   };
 
   const updateFolderName: React.FocusEventHandler<HTMLInputElement> = (e) => {
-    if (inputRef.current && folderCardRef.current) {
-      if (
-        !inputRef.current.contains(e?.target as Node | null) &&
-        !folderCardRef.current.contains(e.target as Node | null)
-      ) {
-        if (inputRef.current.value) {
-            mutate({ name: inputRef.current.value });
-        } else {
-          Renamed();
-        }
+    if (inputRef.current) {
+      if (inputRef.current.value) {
+        mutate({ name: inputRef.current.value });
+      } else {
+        Renamed();
       }
     }
   };
 
   return (
-    <div
-      ref={folderCardRef}
-      onClick={handleFolderClick}
-      className={cn(
-        'flex hover:bg-neutral-800 cursor-pointer transition duration-150 items-center gap-2 justify-between min-w-[250px] py-4 px-4 rounded-lg border-[1px]'
-      )}
-    >
-      <Loader state={false}>
-        <div className="flex flex-col gap-[1px]">
-          {onRename ? (
-            <Input
-              autoFocus
-              onBlur={updateFolderName}
-              ref={inputRef}
-              placeholder={name}
-              className="border-none text-base w-full outline-none text-neutral-300 bg-transparent p-0"
-            />
-          ) : (
-            <p
-              onClick={(e) => e.stopPropagation()}
-              className="text-neutral-300 font-semibold"
-              onDoubleClick={handleFolderRename}
-            >
-              {name}
-            </p>
+    <ContextMenu>
+      <ContextMenuTrigger>
+        <div
+          ref={folderCardRef}
+          onClick={handleFolderClick}
+          onContextMenu={() => console.log('first')}
+          className={cn(
+            optimistic && 'opacity-60',
+            'flex hover:bg-neutral-800 cursor-pointer transition duration-150 items-center gap-2 justify-between min-w-[250px] py-4 px-4 rounded-lg border-[1px]'
           )}
+        >
+          <Loader state={false}>
+            <div className="flex flex-col gap-[1px]">
+              {onRename ? (
+                <Input
+                  autoFocus
+                  onBlur={updateFolderName}
+                  ref={inputRef}
+                  placeholder={name}
+                  className="border-none text-base w-full focus:border-none outline-none h-6 text-neutral-300 bg-transparent px-4"
+                />
+              ) : (
+                <p
+                  onClick={(e) => e.stopPropagation()}
+                  className="text-neutral-300 font-semibold"
+                  onDoubleClick={handleFolderRename}
+                >
+                  {name}
+                </p>
+              )}
 
-          <span className="text-sm text-neutral-500 font-semibold">
-            {count || 0} videos
-          </span>
+              <span className="text-sm text-neutral-500 font-semibold">
+                {count || 0} videos
+              </span>
+            </div>
+          </Loader>
+          <FolderDuotone />
         </div>
-      </Loader>
-      <FolderDuotone />
-    </div>
+      </ContextMenuTrigger>
+      <ContextMenuContent>
+        <ContextMenuItem onClick={handleFolderRename}>
+          Rename
+          <ContextMenuShortcut>
+            <FolderPen size={14} />
+          </ContextMenuShortcut>
+        </ContextMenuItem>
+        <ContextMenuItem disabled>
+          Delete
+          <ContextMenuShortcut>
+            <Trash size={14} />
+          </ContextMenuShortcut>
+        </ContextMenuItem>
+      </ContextMenuContent>
+    </ContextMenu>
   );
 };
 

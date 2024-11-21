@@ -29,17 +29,18 @@ export type FoldersProps = {
 
 const Folders = ({ workspaceId }: Props) => {
   //Get Folders in currenet workspace
-  const { data, isFetched } = useQueryData(['workspace-folders'], () => {
-    getWorkspaceFolders(workspaceId);
-  });
+  const { data, isFetched } = useQueryData(['workspace-folders'], () =>
+    getWorkspaceFolders(workspaceId)
+  );
 
-  const { latestVariable } = useMutationDataState(['create-folder']);
+  const { latestVariables } = useMutationDataState(['create-folder']);
 
   const { data: folders, status } = data as FoldersProps;
 
   if (isFetched && folders) {
   }
 
+  //TODO: Add redux for folders
   return (
     <div className="flex flex-col gap-4">
       <div className="flex items-center justify-between">
@@ -53,8 +54,36 @@ const Folders = ({ workspaceId }: Props) => {
         </div>
       </div>
       {/* TODO complete CN */}
-      <section className={cn('flex items-center gap-4 overflow-x-auto w-full')}>
-        <Folder name="Folder title" count={51} />
+      <section
+        className={cn(
+          status !== 200 && 'justify-center',
+          'flex items-center gap-4 overflow-x-auto w-full'
+        )}
+      >
+        {status !== 200 ? (
+          <p className=" text-neutral-300 font-semibold">
+            No folders in workspace
+          </p>
+        ) : (
+          <>
+            {latestVariables && latestVariables.status === 'pending' && (
+              <Folder
+                name={latestVariables.variables.name}
+                id={latestVariables.variables.id}
+                optimistic
+              />
+            )}
+
+            {folders.map((folder) => (
+              <Folder
+                id={folder.id}
+                key={folder.id}
+                name={folder.name}
+                count={folder._count.videos}
+              />
+            ))}
+          </>
+        )}
       </section>
     </div>
   );
