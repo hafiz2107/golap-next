@@ -72,3 +72,26 @@ export type SearchReturnType<T> = T extends 'USERS'
       onUsers: undefined;
     }
   : never;
+
+export type FoldersProps = {
+  status: number;
+  data: ({
+    _count: {
+      videos: number;
+    };
+  } & {
+    id: string;
+    name: string;
+    createdAt: Date;
+    workspaceId: string | null;
+  })[];
+};
+export type FolderProps = {
+  status: number;
+  data: {
+    name: string;
+    _count: {
+      videos: number;
+    };
+  };
+};

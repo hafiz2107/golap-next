@@ -9,23 +9,10 @@ import { useQueryData } from '@/hooks/useQueryData';
 import { getWorkspaceFolders } from '@/actions/workspace';
 import { useMutationDataState } from '@/hooks/useMutationData';
 import { QueryKeys } from '@/contants/query-keys';
+import { FoldersProps } from '@/types/index.type';
 
 type Props = {
   workspaceId: string;
-};
-
-export type FoldersProps = {
-  status: number;
-  data: ({
-    _count: {
-      videos: number;
-    };
-  } & {
-    id: string;
-    name: string;
-    createdAt: Date;
-    workspaceId: string | null;
-  })[];
 };
 
 const Folders = ({ workspaceId }: Props) => {

@@ -8,4 +8,8 @@ export const QueryKeys = {
     createFolder: 'create-folder',
     renameFolder: 'rename-folders',
   },
+  folder: {
+    folderVideos: 'folder-videos',
+    folderInfo: 'folder-info',
+  },
 };

@@ -1,3 +1,6 @@
+import { getAllUserVideos, getFolderInfo } from '@/actions/workspace';
+import FolderInfo from '@/components/global/folders/folder-info';
+import { QueryKeys } from '@/contants/query-keys';
 import {
   dehydrate,
   HydrationBoundary,
@@ -13,11 +16,20 @@ const FolderPage = async ({ params: { folderId, workspaceId } }: Props) => {
   const query = await new QueryClient();
 
   await query.prefetchQuery({
-    queryKey: [],
-    queryFn: () => '',
+    queryKey: [QueryKeys.folder.folderVideos],
+    queryFn: () => getAllUserVideos(folderId),
   });
 
-  return <HydrationBoundary state={dehydrate(query)}></HydrationBoundary>;
+  await query.prefetchQuery({
+    queryKey: [QueryKeys.folder.folderInfo],
+    queryFn: () => getFolderInfo(folderId),
+  });
+
+  return (
+    <HydrationBoundary state={dehydrate(query)}>
+      <FolderInfo folderId={folderId} />
+    </HydrationBoundary>
+  );
 };
 
 export default FolderPage;
