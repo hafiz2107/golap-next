@@ -95,3 +95,26 @@ export type FolderProps = {
     };
   };
 };
+
+export type VideosProps = {
+  status: number;
+  data: Array<VideoInfoProps>;
+};
+
+export type VideoInfoProps = {
+  User: {
+    firstname: string | null;
+    lastname: string | null;
+    image: string | null;
+  } | null;
+  id: string;
+  Folder: {
+    id: string;
+    name: string;
+  } | null;
+  createdAt: Date;
+  title: string | null;
+  source: string;
+  processing: boolean;
+  workspaceId: string;
+};
