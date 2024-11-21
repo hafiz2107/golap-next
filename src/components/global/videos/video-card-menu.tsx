@@ -2,6 +2,7 @@ import React from 'react';
 import Modal from '../modal';
 import { Move } from 'lucide-react';
 import ChangeVideoLocation from '@/components/forms/change-video-location';
+import { Button } from '@/components/ui/button';
 
 type Props = {
   videoId: string;
@@ -22,7 +23,11 @@ const CardMenu = ({
       // TODO:Change description
       description="Please change this later"
       title="Move to new workspace/Folder"
-      trigger={<Move size={20} fill="#A4A4A4" className="text-[#A4A4A4]" />}
+      trigger={
+        <Button className="p-0 h-5 bg-[#252525] px-1">
+          <Move size={18} fill="#4F4F4F" className="text-[#4F4F4F]" />
+        </Button>
+      }
     >
       <ChangeVideoLocation
         videoId={videoId}

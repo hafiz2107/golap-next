@@ -116,5 +116,4 @@ export type VideoInfoProps = {
   title: string | null;
   source: string;
   processing: boolean;
-  workspaceId: string;
 };

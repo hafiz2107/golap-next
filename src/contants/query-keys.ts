@@ -11,5 +11,6 @@ export const QueryKeys = {
   folder: {
     folderVideos: 'folder-videos',
     folderInfo: 'folder-info',
+    changeVideoLocation: 'change-video-location',
   },
 };
