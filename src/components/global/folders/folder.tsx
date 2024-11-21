@@ -34,10 +34,11 @@ const Folder = ({ id, name, count, optimistic }: Props) => {
 
   const { isPending, mutate } = useMutationData(
     ['rename-folders'],
-    (data: { name: string }) => renameFolders(id, data.name),
+    (data: { name: string; id: string }) => renameFolders(id, data.name),
     'workspace-folders',
     Renamed
   );
+
   const pathName = usePathname();
   const router = useRouter();
 

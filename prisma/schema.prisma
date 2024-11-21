@@ -81,6 +81,7 @@ model Folder {
   WorkSpace   WorkSpace? @relation(fields: [workSpaceId], references: [id])
   workSpaceId String?    @db.Uuid
   videos      Video[]
+  updatedAt   DateTime   @default(now()) @updatedAt
 }
 
 model Video {
