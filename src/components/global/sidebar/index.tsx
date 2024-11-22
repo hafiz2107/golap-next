@@ -62,6 +62,10 @@ const Sidebar = ({ activeWorkspaceId }: Props) => {
   const { data: workspace } = data as WorkspaceProps;
   const { data: count } = notifications as NotificationProps;
 
+  useEffect(() => {
+    console.log('Workspaces -> ', JSON.stringify(workspace));
+  }, [workspace]);
+
   const onChangeActiveWorkspace = (value: string) =>
     router.push(`/dashboard/${value}`);
 
@@ -170,10 +174,10 @@ const Sidebar = ({ activeWorkspaceId }: Props) => {
             )}
 
           <nav className="w-full">
-            <ul className="h-fit max-h-[130px] overflow-auto overflow-x-hidden fade-layer">
-              {workspace.workspace.map(
-                (item) =>
-                  item.type === 'PERSONAL' && (
+            <ul className="h-[130px]  overflow-auto overflow-x-hidden fade-layer">
+              {workspace.workspace.map((item) => {
+                return (
+                  // item.type === 'PERSONAL' && (
                     <SidebarItem
                       href={`/dashboard/${item.id}`}
                       selected={pathName === `/dashboard/${item.id}`}
@@ -186,8 +190,9 @@ const Sidebar = ({ activeWorkspaceId }: Props) => {
                         </WorkspacePlaceholder>
                       }
                     />
-                  )
-              )}
+                  // )
+                );
+              })}
               {!!workspace.members.length &&
                 workspace.members.map((item) => (
                   <SidebarItem

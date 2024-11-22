@@ -4,6 +4,8 @@ export const QueryKeys = {
     userWorkspaces: 'user-workspaces',
     userNotifications: 'user-notifications',
 
+    createWorkSpace: 'create-workspace',
+
     workspaceFolders: 'workspace-folders',
     createFolder: 'create-folder',
     renameFolder: 'rename-folders',

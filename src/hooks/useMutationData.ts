@@ -20,7 +20,7 @@ export const useMutationData = (
     onSuccess(data) {
       if (onSuccess) onSuccess();
       return toast(
-        data?.status === 200
+        data?.status === 200 || data?.status === 201
           ? data?.message || 'Success'
           : data?.message || 'Something went wrong please try again later',
         {

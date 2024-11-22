@@ -6,6 +6,7 @@ import { ThemeProvider } from '@/components/theme';
 import ReactQueryProvider from '@/react-query';
 import { Toaster } from '@/components/ui/sonner';
 import { ReduxProvider } from '@/redux/provider';
+import SsrLoader from '@/components/global/loader/ssr-loader';
 
 const manrope = Manrope({
   subsets: ['latin'],
@@ -33,7 +34,10 @@ export default function RootLayout({
             disableTransitionOnChange
           >
             <ReduxProvider>
-              <ReactQueryProvider>{children}</ReactQueryProvider>
+              <ReactQueryProvider>
+                <SsrLoader />
+                {children}
+              </ReactQueryProvider>
             </ReduxProvider>
             <Toaster />
           </ThemeProvider>
