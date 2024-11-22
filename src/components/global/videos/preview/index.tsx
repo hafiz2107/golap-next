@@ -7,10 +7,14 @@ import { useRouterPush } from '@/hooks/useRouterPush';
 import { CalculteDateDistance, truncateString } from '@/lib/utils';
 import { VideoProps } from '@/types/index.type';
 import { formatDistance } from 'date-fns';
-import { Dot } from 'lucide-react';
+import { Dot, Download } from 'lucide-react';
 import React from 'react';
 import CopyLink from '../copy-link';
 import RichLink from '../rick-link';
+import TabMenu from '../../tabs';
+import { TabsContent } from '@/components/ui/tabs';
+import AiTools from '../../ai-tools';
+import VideoTranscript from '../../video-transcript';
 
 type Props = {
   videoId: string;
@@ -84,7 +88,7 @@ const VideoPreview = ({ videoId }: Props) => {
         </div>
       </div>
       <div className="lg:col-span-1 flex flex-col gap-y-16">
-        <div className="flex justify-end gap-x-3">
+        <div className="flex justify-end items-center gap-x-3">
           <CopyLink
             videoId={videoId}
             className="rounded-full bg-transparent px-10"
@@ -96,6 +100,24 @@ const VideoPreview = ({ videoId }: Props) => {
             source={video.source}
             title={video.title as string}
           />
+          <Download className="text-[#4d4c4c]" />
+        </div>
+        <div>
+          <TabMenu
+            defaulValue="AI Tools"
+            triggers={['AI Tools', 'Transcript', 'Activity']}
+          >
+            <AiTools
+              plan={video.User?.subscription?.plan!}
+              trial={video.User?.trial as boolean}
+              videoId={videoId}
+            />
+
+            <VideoTranscript transcript={video.description as string} />
+            <TabsContent value="Activity">
+              Add commenting functionality here
+            </TabsContent>
+          </TabMenu>
         </div>
       </div>
     </div>
