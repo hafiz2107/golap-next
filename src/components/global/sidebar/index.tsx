@@ -15,7 +15,7 @@ import { Separator } from '@/components/ui/separator';
 import { NotificationProps, WorkspaceProps } from '@/types/index.type';
 import Image from 'next/image';
 import { usePathname, useRouter } from 'next/navigation';
-import React from 'react';
+import React, { useEffect } from 'react';
 import Modal from '../modal';
 import { Menu, PlusCircle } from 'lucide-react';
 import Search from '../search';
@@ -34,6 +34,9 @@ import {
   SheetTrigger,
 } from '@/components/ui/sheet';
 import InfoBar from '../info-bar';
+import { QueryKeys } from '@/contants/query-keys';
+import { useDispatch } from 'react-redux';
+import { WORKSPACES } from '@/redux/slice/workspaces';
 
 type Props = {
   activeWorkspaceId: string;
@@ -43,12 +46,16 @@ type Props = {
 const Sidebar = ({ activeWorkspaceId }: Props) => {
   const router = useRouter();
   const pathName = usePathname();
+  const dispatch = useDispatch();
 
-  const { data } = useQueryData(['user-workspaces'], getWorkSpaces);
+  const { data, isFetched } = useQueryData(
+    [QueryKeys.dashboard.userWorkspaces],
+    getWorkSpaces
+  );
   const menuItems = MENU_ITEMS(activeWorkspaceId);
 
   const { data: notifications } = useQueryData(
-    ['user-notifications'],
+    [QueryKeys.dashboard.userNotifications],
     getNotifications
   );
 
@@ -58,9 +65,16 @@ const Sidebar = ({ activeWorkspaceId }: Props) => {
   const onChangeActiveWorkspace = (value: string) =>
     router.push(`/dashboard/${value}`);
 
+  // TODO: Uncomment the line where currentWorkspace is used
   const currentWorkspace = workspace?.workspace?.find(
     (val) => val.id === activeWorkspaceId
   );
+
+  useEffect(() => {
+    if (isFetched && workspace) {
+      dispatch(WORKSPACES({ workspaces: workspace.workspace }));
+    }
+  }, [dispatch, isFetched, workspace]);
 
   const SidebarSection = (
     <div className="z-50 bg-[#111111] flex-none relative p-4 h-full w-[250px] flex flex-col gap-4 items-center overflow-hidden">
@@ -100,26 +114,26 @@ const Sidebar = ({ activeWorkspaceId }: Props) => {
           </SelectGroup>
         </SelectContent>
       </Select>
-      {/* {currentWorkspace?.type === 'PUBLIC' &&
-        workspace.subscription?.plan === 'PRO' && ( */}
-      <Modal
-        trigger={
-          <span className="text-sm cursor-pointer flex items-center justify-center bg-neutral-800/70 hover:bg-neutral-800/60 w-full rounded-sm p-[5px] gap-2">
-            <PlusCircle
-              size={15}
-              className="text-neutral-800/90 fill-neutral-500"
-            />
-            <span className="text-neutral-400 font-bold text-xs">
-              Invite to workspace
-            </span>
-          </span>
-        }
-        title="Invite to workspace"
-        description="Invite other users to your workspace"
-      >
-        <Search workspaceId={activeWorkspaceId} />
-      </Modal>
-      {/*  )} */}
+      {currentWorkspace?.type === 'PUBLIC' &&
+        workspace.subscription?.plan === 'PRO' && (
+          <Modal
+            trigger={
+              <span className="text-sm cursor-pointer flex items-center justify-center bg-neutral-800/70 hover:bg-neutral-800/60 w-full rounded-sm p-[5px] gap-2">
+                <PlusCircle
+                  size={15}
+                  className="text-neutral-800/90 fill-neutral-500"
+                />
+                <span className="text-neutral-400 font-bold text-xs">
+                  Invite to workspace
+                </span>
+              </span>
+            }
+            title="Invite to workspace"
+            description="Invite other users to your workspace"
+          >
+            <Search workspaceId={activeWorkspaceId} />
+          </Modal>
+        )}
       <p className="w-full text-[#9D9D9D] font-bold mt-4">Menu</p>
       <nav className="w-full">
         <ul>

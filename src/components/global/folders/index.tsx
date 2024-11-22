@@ -3,19 +3,22 @@
 import FolderDuotone from '@/components/icons/folder-duotone';
 import { cn } from '@/lib/utils';
 import { ArrowRight } from 'lucide-react';
-import React from 'react';
+import React, { useEffect } from 'react';
 import Folder from './folder';
 import { useQueryData } from '@/hooks/useQueryData';
 import { getWorkspaceFolders } from '@/actions/workspace';
 import { useMutationDataState } from '@/hooks/useMutationData';
 import { QueryKeys } from '@/contants/query-keys';
 import { FoldersProps } from '@/types/index.type';
+import { useDispatch } from 'react-redux';
+import { FOLDERS } from '@/redux/slice/folders';
 
 type Props = {
   workspaceId: string;
 };
 
 const Folders = ({ workspaceId }: Props) => {
+  const dispatch = useDispatch();
   //Get Folders in currenet workspace
   const { data, isFetched } = useQueryData(
     [QueryKeys.dashboard.workspaceFolders],
@@ -28,8 +31,11 @@ const Folders = ({ workspaceId }: Props) => {
 
   const { data: folders, status } = data as FoldersProps;
 
-  if (isFetched && folders) {
-  }
+  useEffect(() => {
+    if (isFetched && folders) {
+      dispatch(FOLDERS({ folders }));
+    }
+  }, [dispatch, folders, isFetched]);
 
   //TODO: Add redux for folders
   return (
