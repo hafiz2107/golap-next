@@ -1,7 +1,10 @@
 import CreateFolders from '@/components/global/create-folders';
 import CreateWorkspace from '@/components/global/create-workspace';
 import Folders from '@/components/global/folders';
+import Videos from '@/components/global/videos';
+import { Separator } from '@/components/ui/separator';
 import { Tabs, TabsList } from '@/components/ui/tabs';
+import { QueryKeys } from '@/contants/query-keys';
 import { TabsContent, TabsTrigger } from '@radix-ui/react-tabs';
 import React from 'react';
 
@@ -34,9 +37,15 @@ const WorkspaceDetailsPage = async ({ params }: Props) => {
             <CreateFolders workspaceId={workspaceId} />
           </div>
         </div>
-        <section className="py-9">
-          <TabsContent value="videos">
+        <section className=" py-9">
+          <TabsContent value="videos" className="flex flex-col gap-3">
             <Folders workspaceId={workspaceId} />
+            <Separator />
+            <Videos
+              workspaceId={workspaceId}
+              folderId={workspaceId}
+              videosKey={QueryKeys.dashboard.userVideos}
+            />
           </TabsContent>
         </section>
       </Tabs>

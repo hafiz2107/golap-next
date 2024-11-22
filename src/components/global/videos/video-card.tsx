@@ -2,12 +2,11 @@ import { VideoInfoProps } from '@/types/index.type';
 import React from 'react';
 import Loader from '../loader';
 import CardMenu from './video-card-menu';
-import ChangeVideoLocation from '@/components/forms/change-video-location';
 import { formatDistance } from 'date-fns';
 import CopyLink from './copy-link';
 import Link from 'next/link';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Dot, Share2, User } from 'lucide-react';
+import { Share2, User } from 'lucide-react';
 
 type Props = VideoInfoProps & { workspaceId: string };
 
@@ -23,7 +22,7 @@ const VideoCard = (props: Props) => {
     >
       {/* TODO: Add a skeleton when processing */}
       <div className="group overflow-hidden cursor-pointer bg-[#171717] relative border-[1px] border-[#252525] flex flex-col rounded-xl">
-        <div className="absolute top-3 right-3 z-50 hidden group-hover:flex  group-hover:gap-3">
+        <div className="absolute top-3 right-3 z-30 hidden group-hover:flex  group-hover:gap-3">
           <CardMenu
             videoId={props.id}
             currentFolder={props.Folder?.id}
@@ -67,7 +66,7 @@ const VideoCard = (props: Props) => {
               <span className="flex gap-x-2 items-center">
                 <Share2 size={12} fill="#9D9D9D" className="text-[#9D9D9D]" />
                 <p className=" text-xs font-semibold text-[#9D9D9D] capitalize">
-                  {props.User?.firstname}'s Workspace
+                  {props.User?.firstname}&apos;s Workspace
                 </p>
               </span>
             </div>

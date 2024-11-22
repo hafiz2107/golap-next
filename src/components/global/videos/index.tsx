@@ -22,7 +22,6 @@ const Videos = ({ folderId, videosKey, workspaceId }: Props) => {
 
   const { status: videosStatus, data: videos } = videoData as VideosProps;
 
-  console.log('JSON.str -> ', JSON.stringify(videos));
   return (
     <div className="flex flex-col gap-4 mt-4">
       <div className="flex  items-center justify-between">
@@ -40,13 +39,31 @@ const Videos = ({ folderId, videosKey, workspaceId }: Props) => {
       >
         {videosStatus === 200 ? (
           videos.map((video) => (
-            <VideoCard key={video.id} workspaceId={workspaceId} {...video} />
+            <>
+              <VideoCard key={video.id} workspaceId={workspaceId} {...video} />
+              <VideoCard key={video.id} workspaceId={workspaceId} {...video} />
+              <VideoCard key={video.id} workspaceId={workspaceId} {...video} />
+              <VideoCard key={video.id} workspaceId={workspaceId} {...video} />
+              <VideoCard key={video.id} workspaceId={workspaceId} {...video} />
+              <VideoCard key={video.id} workspaceId={workspaceId} {...video} />
+              <VideoCard key={video.id} workspaceId={workspaceId} {...video} />
+              <VideoCard key={video.id} workspaceId={workspaceId} {...video} />
+              <VideoCard key={video.id} workspaceId={workspaceId} {...video} />
+              <VideoCard key={video.id} workspaceId={workspaceId} {...video} />
+              <VideoCard key={video.id} workspaceId={workspaceId} {...video} />
+              <VideoCard key={video.id} workspaceId={workspaceId} {...video} />
+              <VideoCard key={video.id} workspaceId={workspaceId} {...video} />
+              <VideoCard key={video.id} workspaceId={workspaceId} {...video} />
+              <VideoCard key={video.id} workspaceId={workspaceId} {...video} />
+              <VideoCard key={video.id} workspaceId={workspaceId} {...video} />
+              <VideoCard key={video.id} workspaceId={workspaceId} {...video} />
+              <VideoCard key={video.id} workspaceId={workspaceId} {...video} />
+              <VideoCard key={video.id} workspaceId={workspaceId} {...video} />
+            </>
           ))
         ) : (
           <p className="text-[#BDBDBD]">No videos found</p>
         )}
-
-        {/*  */}
       </section>
     </div>
   );

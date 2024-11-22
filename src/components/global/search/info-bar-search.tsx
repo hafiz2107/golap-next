@@ -1,24 +1,15 @@
-import {
-  Calculator,
-  Calendar,
-  CreditCard,
-  Search,
-  Settings,
-  Smile,
-  User,
-} from 'lucide-react';
+import { User } from 'lucide-react';
 
 import {
   Command,
   CommandDialog,
   CommandEmpty,
   CommandGroup,
-  CommandInput,
   CommandItem,
   CommandList,
 } from '@/components/ui/command';
 
-import React, { useState } from 'react';
+import React from 'react';
 import { useSearch } from '@/hooks/useSearch';
 import { Input } from '@/components/ui/input';
 import { Separator } from '@/components/ui/separator';
@@ -50,7 +41,7 @@ export const InfoBarSearch = ({ open, setOpen, workspaceId }: Props) => {
   }, []);
 
   return (
-    <Command>
+    <Command className='sm:hidden'>
       <CommandDialog open={open} onOpenChange={setOpen}>
         {/* <CommandInput
           value={query}
