@@ -117,3 +117,27 @@ export type VideoInfoProps = {
   source: string;
   processing: boolean;
 };
+
+export type VideoProps = {
+  status: number;
+  data: {
+    title: string | null;
+    createdAt: Date;
+    source: string;
+    description: string | null;
+    processing: boolean;
+    views: number;
+    summery: string;
+    User: {
+      firstname: string | null;
+      lastname: string | null;
+      image: string | null;
+      clerkid: string;
+      trial: boolean;
+      subscription: {
+        plan: 'PRO' | 'FREE';
+      } | null;
+    } | null;
+  };
+  author: boolean;
+};

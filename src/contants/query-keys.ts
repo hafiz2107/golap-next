@@ -15,4 +15,8 @@ export const QueryKeys = {
     folderInfo: 'folder-info',
     changeVideoLocation: 'change-video-location',
   },
+
+  preview: {
+    previewVideo: 'preview-video',
+  },
 };

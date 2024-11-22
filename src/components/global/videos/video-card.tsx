@@ -2,19 +2,22 @@ import { VideoInfoProps } from '@/types/index.type';
 import React from 'react';
 import Loader from '../loader';
 import CardMenu from './video-card-menu';
-import { formatDistance } from 'date-fns';
+
 import CopyLink from './copy-link';
 import Link from 'next/link';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Share2, User } from 'lucide-react';
+import { CalculteDateDistance } from '@/lib/utils';
 
 type Props = VideoInfoProps & { workspaceId: string };
 
 const VideoCard = (props: Props) => {
   //TODO Keep date
-  const daysAgo = formatDistance(props.createdAt, Date.now(), {
-    addSuffix: true,
+  const daysAgo = CalculteDateDistance({
+    start: new Date(),
+    end: props.createdAt,
   });
+
   return (
     <Loader
       state={props.processing}
