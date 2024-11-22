@@ -14,7 +14,7 @@ import { Separator } from '@/components/ui/separator';
 
 import { NotificationProps, WorkspaceProps } from '@/types/index.type';
 import Image from 'next/image';
-import { usePathname, useRouter } from 'next/navigation';
+import { usePathname } from 'next/navigation';
 import React, { useEffect } from 'react';
 import Modal from '../modal';
 import { Menu, PlusCircle } from 'lucide-react';
@@ -37,6 +37,8 @@ import InfoBar from '../info-bar';
 import { QueryKeys } from '@/contants/query-keys';
 import { useDispatch } from 'react-redux';
 import { WORKSPACES } from '@/redux/slice/workspaces';
+import { useRouterPush } from '@/hooks/useRouterPush';
+import FullScreenLoading from '../loader/fullscreenLoading';
 
 type Props = {
   activeWorkspaceId: string;
@@ -44,7 +46,7 @@ type Props = {
 
 //TODO:Add payments action to upgrade button
 const Sidebar = ({ activeWorkspaceId }: Props) => {
-  const router = useRouter();
+  const { isNavigating, pushToRoute } = useRouterPush();
   const pathName = usePathname();
   const dispatch = useDispatch();
 
@@ -67,7 +69,7 @@ const Sidebar = ({ activeWorkspaceId }: Props) => {
   }, [workspace]);
 
   const onChangeActiveWorkspace = (value: string) =>
-    router.push(`/dashboard/${value}`);
+    pushToRoute(`/dashboard/${value}`);
 
   // TODO: Uncomment the line where currentWorkspace is used
   const currentWorkspace = workspace?.workspace?.find(
@@ -178,18 +180,18 @@ const Sidebar = ({ activeWorkspaceId }: Props) => {
               {workspace.workspace.map((item) => {
                 return (
                   // item.type === 'PERSONAL' && (
-                    <SidebarItem
-                      href={`/dashboard/${item.id}`}
-                      selected={pathName === `/dashboard/${item.id}`}
-                      title={item.name}
-                      notifications={0}
-                      key={item.name}
-                      icon={
-                        <WorkspacePlaceholder>
-                          {item.name.charAt(0)}
-                        </WorkspacePlaceholder>
-                      }
-                    />
+                  <SidebarItem
+                    href={`/dashboard/${item.id}`}
+                    selected={pathName === `/dashboard/${item.id}`}
+                    title={item.name}
+                    notifications={0}
+                    key={item.name}
+                    icon={
+                      <WorkspacePlaceholder>
+                        {item.name.charAt(0)}
+                      </WorkspacePlaceholder>
+                    }
+                  />
                   // )
                 );
               })}
@@ -241,7 +243,9 @@ const Sidebar = ({ activeWorkspaceId }: Props) => {
     </div>
   );
 
-  return (
+  return isNavigating ? (
+    <FullScreenLoading text="Switching workspace" />
+  ) : (
     <div className="full !z-[40]">
       <InfoBar workspaceId={activeWorkspaceId} />
       <div className="md:hidden fixed my-4 ">

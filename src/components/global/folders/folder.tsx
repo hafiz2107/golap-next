@@ -1,7 +1,7 @@
 'use client';
 
 import { cn } from '@/lib/utils';
-import { usePathname, useRouter } from 'next/navigation';
+import { usePathname } from 'next/navigation';
 import React, { useRef, useState } from 'react';
 import Loader from '../loader';
 import FolderDuotone from '@/components/icons/folder-duotone';
@@ -17,6 +17,8 @@ import {
 } from '@/components/ui/context-menu';
 import { FolderPen, Trash } from 'lucide-react';
 import { QueryKeys } from '@/contants/query-keys';
+import { useRouterPush } from '@/hooks/useRouterPush';
+import FullScreenLoading from '../loader/fullscreenLoading';
 
 type Props = {
   name: string;
@@ -26,7 +28,9 @@ type Props = {
 };
 
 const Folder = ({ id, name, count, optimistic }: Props) => {
+  const { isNavigating, pushToRoute } = useRouterPush();
   const [onRename, setOnRename] = useState(false);
+
   const Rename = () => setOnRename(true);
   const Renamed = () => setOnRename(false);
 
@@ -45,11 +49,10 @@ const Folder = ({ id, name, count, optimistic }: Props) => {
   ]);
 
   const pathName = usePathname();
-  const router = useRouter();
 
   const handleFolderClick = () => {
     if (onRename) return;
-    router.push(`${pathName}/folder/${id}`);
+    pushToRoute(`${pathName}/folder/${id}`);
   };
 
   const handleFolderRename = (
@@ -69,7 +72,9 @@ const Folder = ({ id, name, count, optimistic }: Props) => {
     }
   };
 
-  return (
+  return isNavigating ? (
+    <FullScreenLoading text="Navigating to folder" />
+  ) : (
     <ContextMenu>
       <ContextMenuTrigger>
         <div
