@@ -42,7 +42,9 @@ const Videos = ({ folderId, videosKey, workspaceId }: Props) => {
             <VideoCard key={video.id} workspaceId={workspaceId} {...video} />
           ))
         ) : (
-          <p className="text-[#BDBDBD]">No videos found</p>
+          <p className=" text-neutral-300 font-semibold">
+            No Videos in workspace
+          </p>
         )}
       </section>
     </div>
