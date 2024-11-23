@@ -268,3 +268,110 @@ export const enableFirstView = async (state: boolean) => {
     return { status: 500, data: null };
   }
 };
+
+export const createCommentAndReply = async (
+  userId: string,
+  comment: string,
+  videoId: string,
+  commentId: string | undefined
+) => {
+  try {
+    if (commentId) {
+      const reply = await client.comment.update({
+        where: {
+          id: commentId,
+        },
+        data: {
+          reply: {
+            create: {
+              comment,
+              userId,
+              videoId,
+            },
+          },
+        },
+      });
+
+      if (reply) return { status: 200, data: 'Reply posted' };
+    } else {
+      const newComment = await client.video.update({
+        where: {
+          id: videoId,
+        },
+        data: {
+          Comment: {
+            create: {
+              comment,
+              userId,
+            },
+          },
+        },
+      });
+      if (newComment) return { status: 200, data: 'New comment added' };
+    }
+
+    return { status: 400, data: 'Please add all required props' };
+  } catch (error) {
+    return { status: 500, data: 'Something went wrong' };
+  }
+};
+
+export const getUserProfile = async () => {
+  try {
+    const user = await currentUser();
+    if (!user) return { status: 401, data: null };
+
+    const profileAndImage = await client.user.findUnique({
+      where: {
+        clerkid: user.id,
+      },
+    });
+
+    if (user)
+      return {
+        status: 200,
+        data: profileAndImage,
+      };
+    return {
+      status: 400,
+      data: null,
+    };
+  } catch (error) {
+    return {
+      status: 500,
+      data: null,
+    };
+  }
+};
+
+export const getVideoComments = async (id: string) => {
+  try {
+    const comments = await client.comment.findMany({
+      where: {
+        OR: [
+          {
+            videoId: id,
+          },
+          {
+            commentId: id,
+          },
+        ],
+        commentId: null,
+      },
+      include: {
+        reply: {
+          include: {
+            User: true,
+          },
+        },
+        User: true,
+      },
+    });
+
+    if (comments && comments.length) return { status: 200, data: comments };
+
+    return { status: 400, data: [] };
+  } catch (error) {
+    return { status: 500, data: [] };
+  }
+};

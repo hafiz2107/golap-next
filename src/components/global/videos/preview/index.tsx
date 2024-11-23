@@ -15,6 +15,7 @@ import TabMenu from '../../tabs';
 import { TabsContent } from '@/components/ui/tabs';
 import AiTools from '../../ai-tools';
 import VideoTranscript from '../../video-transcript';
+import Activities from '../../activities';
 
 type Props = {
   videoId: string;
@@ -114,9 +115,10 @@ const VideoPreview = ({ videoId }: Props) => {
             />
 
             <VideoTranscript transcript={video.description as string} />
-            <TabsContent value="Activity">
-              Add commenting functionality here
-            </TabsContent>
+            <Activities
+              author={video.User?.firstname as string}
+              videoId={videoId}
+            />
           </TabMenu>
         </div>
       </div>

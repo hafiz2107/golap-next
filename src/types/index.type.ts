@@ -155,3 +155,47 @@ export type NotificationsProps = {
     }[];
   };
 };
+
+export type CommentRepliesProps = {
+  id: string;
+  comment: string;
+  createdAt: string;
+  commentId: string | null;
+  userId: string | null;
+  videoId: string | null;
+  User: {
+    id: string;
+    email: string;
+    firstname: string;
+    lastname: string;
+    createdAt: Date;
+    clerkId: string;
+    image: string | null;
+    trial: boolean;
+    firstView: boolean;
+  } | null;
+};
+
+export type VideoCommentProps = {
+  status: number;
+  data: {
+    User: {
+      id: string;
+      email: string;
+      firstname: string;
+      lastname: string;
+      createdAt: Date;
+      clerkId: string;
+      image: string;
+      trial: boolean;
+      firstView: boolean;
+    };
+    reply: CommentRepliesProps[];
+    id: string;
+    comment: string;
+    createdAt: Date;
+    commentId: string | null;
+    userId: string | null;
+    videoId: string | null;
+  }[];
+};

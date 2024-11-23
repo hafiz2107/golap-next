@@ -18,6 +18,7 @@ export const QueryKeys = {
 
   preview: {
     previewVideo: 'preview-video',
+    videoComments: 'video-comments',
   },
 
   billing: {
@@ -26,5 +27,12 @@ export const QueryKeys = {
   settings: {
     firstView: 'first-view',
     changeFirstView: 'change-first-view',
+  },
+  user: {
+    userProfile: 'user-profile',
+  },
+  comments: {
+    newComment: 'new-comment',
+    videoComments: 'video-comments',
   },
 };

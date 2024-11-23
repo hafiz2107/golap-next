@@ -20,7 +20,7 @@ const SettingsPage = async () => {
   return (
     <div>
       <HydrationBoundary state={dehydrate(query)}>
-        <ThemeSwitcher />
+        {/* <ThemeSwitcher /> */}
         <ToogleFirstView />
       </HydrationBoundary>
     </div>
