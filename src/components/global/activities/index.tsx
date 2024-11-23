@@ -23,9 +23,9 @@ const Activities = ({ author, videoId }: Props) => {
     <div>
       <TabsContent
         value="Activity"
-        className="relative max-h-[58vh] overflow-auto p-5 bg-[#1D1D1D] flex flex-col gap-y-5 data-[state=inactive]:hidden"
+        className="p-5 bg-[#1D1D1D] rounded-xl flex flex-col gap-y-5 data-[state=inactive]:hidden"
       >
-        <div>
+        <div className="max-h-[45vh] overflow-auto">
           {comments.length ? (
             comments.map((comment) => (
               <CommentCard
@@ -45,10 +45,10 @@ const Activities = ({ author, videoId }: Props) => {
             <p className="self-center">No comments yet</p>
           )}
         </div>
+        <div className=" bottom-0  sticky z-20 bg-[#1D1D1D] py-2 ">
+          <CommentForm author={author} videoId={videoId} />
+        </div>
       </TabsContent>
-      <div className=" bottom-0 sticky z-20 bg-[#1D1D1D] py-2 px-5">
-        <CommentForm author={author} videoId={videoId} />
-      </div>
     </div>
   );
 };
