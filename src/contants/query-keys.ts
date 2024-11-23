@@ -23,4 +23,8 @@ export const QueryKeys = {
   billing: {
     paymentInfo: 'payment-info',
   },
+  settings: {
+    firstView: 'first-view',
+    changeFirstView: 'change-first-view',
+  },
 };

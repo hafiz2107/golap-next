@@ -225,7 +225,7 @@ export const getPaymentInfo = async () => {
 export const getFirstView = async () => {
   try {
     const user = await currentUser();
-    if (!user) return { status: 401 };
+    if (!user) return { status: 401, data: null };
 
     const firstview = await client.user.findUnique({
       where: {
