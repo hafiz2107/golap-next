@@ -37,7 +37,7 @@ const Folder = ({ id, name, count, optimistic }: Props) => {
   const inputRef = useRef<HTMLInputElement | null>(null);
   const folderCardRef = useRef<HTMLDivElement | null>(null);
 
-  const { mutate } = useMutationData(
+  const { mutate, isPending } = useMutationData(
     [QueryKeys.dashboard.renameFolder],
     (data: { name: string; id: string }) => renameFolders(id, data.name),
     QueryKeys.dashboard.workspaceFolders,
@@ -85,7 +85,7 @@ const Folder = ({ id, name, count, optimistic }: Props) => {
             'flex hover:bg-neutral-800 cursor-pointer transition duration-150 items-center gap-2 justify-between min-w-[250px] py-4 px-4 rounded-lg border-[1px]'
           )}
         >
-          <Loader state={false}>
+          <Loader state={isPending}>
             <div className="flex flex-col gap-[1px]">
               {onRename ? (
                 <Input
