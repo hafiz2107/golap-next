@@ -19,4 +19,8 @@ export const QueryKeys = {
   preview: {
     previewVideo: 'preview-video',
   },
+
+  billing: {
+    paymentInfo: 'payment-info',
+  },
 };

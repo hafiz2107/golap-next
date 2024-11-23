@@ -192,3 +192,28 @@ export const searchInfobar = async (query: string, workspaceId: string) => {
     };
   }
 };
+
+export const getPaymentInfo = async () => {
+  try {
+    const user = await currentUser();
+    if (!user) return { status: 401 };
+
+    const payments = await client.user.findUnique({
+      where: {
+        clerkid: user.id,
+      },
+      select: {
+        subscription: {
+          select: {
+            plan: true,
+          },
+        },
+      },
+    });
+
+    if (payments) return { status: 200, data: payments };
+    return { status: 400, data: null };
+  } catch (error) {
+    return { status: 500, data: null };
+  }
+};

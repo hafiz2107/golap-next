@@ -12,7 +12,7 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 export const GetFormattedString = (str: string) => {
-  return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase;
+  return ` ${str.charAt(1).toUpperCase()}${str.slice(2).toLowerCase()}`;
 };
 
 export const CalculteDateDistance = ({ end, start }: DateDistanceProps) => {
