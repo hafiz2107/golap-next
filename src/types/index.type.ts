@@ -141,3 +141,17 @@ export type VideoProps = {
   };
   author: boolean;
 };
+
+export type NotificationsProps = {
+  status: number;
+  data: {
+    image: string;
+    firstname: string;
+    lastname: string;
+    notification: {
+      id: string;
+      userId: string | null;
+      content: string;
+    }[];
+  };
+};

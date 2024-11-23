@@ -82,6 +82,9 @@ export const getNotifications = async () => {
       },
       select: {
         notification: true,
+        image: true,
+        firstname: true,
+        lastname: true,
         _count: {
           select: {
             notification: true,
