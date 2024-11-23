@@ -3,6 +3,7 @@
 
 import { client } from '@/lib/prisma';
 import { currentUser } from '@clerk/nextjs/server';
+import { redirect } from 'next/navigation';
 
 export const onAuthenticateUser = async () => {
   try {
@@ -215,6 +216,53 @@ export const getPaymentInfo = async () => {
     });
 
     if (payments) return { status: 200, data: payments };
+    return { status: 400, data: null };
+  } catch (error) {
+    return { status: 500, data: null };
+  }
+};
+
+export const getFirstView = async () => {
+  try {
+    const user = await currentUser();
+    if (!user) return { status: 401 };
+
+    const firstview = await client.user.findUnique({
+      where: {
+        clerkid: user.id,
+      },
+      select: {
+        firstView: true,
+      },
+    });
+
+    if (firstview) return { status: 200, data: firstview };
+
+    return { status: 400, data: null };
+  } catch (error) {
+    return { status: 500, data: null };
+  }
+};
+
+export const enableFirstView = async (state: boolean) => {
+  try {
+    const user = await currentUser();
+
+    if (!user) return { status: 401 };
+
+    const view = await client.user.update({
+      where: {
+        clerkid: user.id,
+      },
+      data: {
+        firstView: state,
+      },
+      select: {
+        firstView: true,
+      },
+    });
+
+    if (view) return { status: 200, data: view };
     return { status: 400, data: null };
   } catch (error) {
     return { status: 500, data: null };

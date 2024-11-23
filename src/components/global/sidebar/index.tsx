@@ -64,10 +64,6 @@ const Sidebar = ({ activeWorkspaceId }: Props) => {
   const { data: workspace } = data as WorkspaceProps;
   const { data: count } = notifications as NotificationProps;
 
-  useEffect(() => {
-    console.log('Workspaces -> ', JSON.stringify(workspace));
-  }, [workspace]);
-
   const onChangeActiveWorkspace = (value: string) =>
     pushToRoute(`/dashboard/${value}`);
 
