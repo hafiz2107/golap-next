@@ -104,12 +104,12 @@ const Sidebar = ({ activeWorkspaceId }: Props) => {
             {workspace.members.length > 0 &&
               workspace.members.map(
                 (workspace) =>
-                  workspace.Workspace && (
+                  workspace.WorkSpace && (
                     <SelectItem
-                      value={workspace.Workspace.id}
-                      key={workspace.Workspace.id}
+                      value={workspace.WorkSpace.id}
+                      key={workspace.WorkSpace.id}
                     >
-                      {workspace.Workspace.name}
+                      {workspace.WorkSpace.name}
                     </SelectItem>
                   )
               )}
@@ -194,14 +194,14 @@ const Sidebar = ({ activeWorkspaceId }: Props) => {
               {!!workspace.members.length &&
                 workspace.members.map((item) => (
                   <SidebarItem
-                    href={`/dashboard/${item.Workspace.id}`}
-                    selected={pathName === `/dashboard/${item.Workspace.id}`}
-                    title={item.Workspace.name}
+                    href={`/dashboard/${item.WorkSpace.id}`}
+                    selected={pathName === `/dashboard/${item.WorkSpace.id}`}
+                    title={item.WorkSpace.name}
                     notifications={0}
-                    key={item.Workspace.id}
+                    key={item.WorkSpace.id}
                     icon={
                       <WorkspacePlaceholder>
-                        {item.Workspace.name.charAt(0)}
+                        {item.WorkSpace.name.charAt(0)}
                       </WorkspacePlaceholder>
                     }
                   />
