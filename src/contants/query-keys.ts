@@ -29,7 +29,9 @@ export const QueryKeys = {
     changeFirstView: 'change-first-view',
   },
   user: {
+    getUsersForSearch: 'get-users',
     userProfile: 'user-profile',
+    inviteMembers: 'invite-member',
   },
   comments: {
     newComment: 'new-comment',

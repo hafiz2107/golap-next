@@ -8,6 +8,8 @@ import { User, UserPlus } from 'lucide-react';
 import React from 'react';
 import Loader from '../loader';
 import { Search as SearchIcon } from 'lucide-react';
+import { QueryKeys } from '@/contants/query-keys';
+import { inviteMembers } from '@/actions/user';
 
 type Props = {
   workspaceId: string;
@@ -15,17 +17,16 @@ type Props = {
 
 const Search = ({ workspaceId }: Props) => {
   const { isFetching, onSearchQuery, onUsers, query } = useSearch(
-    'get-users',
+    QueryKeys.user.getUsersForSearch,
     'USERS'
   );
 
   //TODO: Wireup sending invitations
-  // const { isPending, mutate } = useMutationData(
-  //   ['invite-member'],
-  //   (data: { receiverId: string; email: string }) => {
-  //     inviteMembers
-  //   }
-  // );
+  const { isPending, mutate } = useMutationData(
+    [QueryKeys.user.inviteMembers],
+    (data: { receiverId: string; email: string }) =>
+      inviteMembers(workspaceId, data.receiverId, data.email)
+  );
   return (
     <div className="flex flex-col gap-y-5">
       <Input
@@ -66,11 +67,13 @@ const Search = ({ workspaceId }: Props) => {
               <div className="flex-1 flex justify-end items-center">
                 <Button
                   //TODO Send invitation button
-                  onClick={() => {}}
+                  onClick={() => {
+                    mutate({ receiverId: user.id, email: user.email });
+                  }}
                   variant={'default'}
                   className="w-5/12 font-bold"
                 >
-                  <Loader state={isFetching} color="#000">
+                  <Loader state={isPending} color="#000">
                     <UserPlus /> Invite
                   </Loader>
                 </Button>
