@@ -2,6 +2,7 @@
 'use server';
 
 import { client } from '@/lib/prisma';
+import { stripeClient } from '@/lib/stripe';
 import { currentUser } from '@clerk/nextjs/server';
 import { redirect } from 'next/navigation';
 import nodemailer from 'nodemailer';
@@ -620,5 +621,34 @@ export const sendEmailForFirstView = async (videoId: string) => {
     return { status: 404, data: 'Video not found' };
   } catch (error) {
     return { status: 500, data: 'Something went wrong' };
+  }
+};
+
+export const completeSubscription = async (sessionId: string) => {
+  try {
+    const user = await currentUser();
+    if (!user) return { status: 401 };
+    const session = await stripeClient.checkout.sessions.retrieve(sessionId);
+
+    if (session) {
+      const customer = await client.user.update({
+        where: {
+          clerkid: user.id,
+        },
+        data: {
+          subscription: {
+            update: {
+              customerId: session.customer as string,
+              plan: 'PRO',
+            },
+          },
+        },
+      });
+
+      if (customer) return { status: 200 };
+    }
+    return { status: 404 };
+  } catch (error) {
+    return { status: 500 };
   }
 };

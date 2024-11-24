@@ -39,6 +39,7 @@ import { useDispatch } from 'react-redux';
 import { WORKSPACES } from '@/redux/slice/workspaces';
 import { useRouterPush } from '@/hooks/useRouterPush';
 import FullScreenLoading from '../loader/fullscreenLoading';
+import PaymentButton from '../payment-button';
 
 type Props = {
   activeWorkspaceId: string;
@@ -228,13 +229,8 @@ const Sidebar = ({ activeWorkspaceId }: Props) => {
         <GlobalCard
           title="Upgrade to Pro"
           description="Unlock AI features like transcription, AI summary and more."
-        >
-          <Button className="text-sm w-full mt-2">
-            <Loader color="#000" state={false}>
-              Upgrade
-            </Loader>
-          </Button>
-        </GlobalCard>
+          footer={<PaymentButton />}
+        />
       )}
     </div>
   );
