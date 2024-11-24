@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useAppSelector } from '@/redux/store';
 import { useEffect, useState } from 'react';
 import { useMutationData } from './useMutationData';

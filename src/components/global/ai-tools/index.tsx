@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Button } from '@/components/ui/button';
 import { TabsContent } from '@/components/ui/tabs';
 import React from 'react';

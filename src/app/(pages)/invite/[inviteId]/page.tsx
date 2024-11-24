@@ -4,9 +4,9 @@ import { redirect } from 'next/navigation';
 import React from 'react';
 
 type Props = {
-  params: {
+  params: Promise<{
     inviteId: string;
-  };
+  }>;
 };
 
 const InvitePage = async ({ params }: Props) => {

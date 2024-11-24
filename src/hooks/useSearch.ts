@@ -63,8 +63,10 @@ export const useSearch = <T extends 'WORKSPACE' | 'USERS' | 'INFOBAR'>(
     if (!debounce) setOnUsers(undefined);
 
     return () => {
+      // eslint-disable-next-line @typescript-eslint/no-unused-expressions
       debounce;
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [debounce]);
 
   return { onSearchQuery, query, isFetching, onUsers } as SearchReturnType<T>;

@@ -7,7 +7,6 @@ import { useSearch } from '@/hooks/useSearch';
 import { User, UserPlus } from 'lucide-react';
 import React from 'react';
 import Loader from '../loader';
-import { Search as SearchIcon } from 'lucide-react';
 import { QueryKeys } from '@/contants/query-keys';
 import { inviteMembers } from '@/actions/user';
 

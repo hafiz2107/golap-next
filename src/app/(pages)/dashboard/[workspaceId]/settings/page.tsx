@@ -1,6 +1,5 @@
 import React from 'react';
 import ToogleFirstView from '@/components/global/first-view-setting';
-import ThemeSwitcher from '@/components/theme/theme-switcher';
 import {
   dehydrate,
   HydrationBoundary,

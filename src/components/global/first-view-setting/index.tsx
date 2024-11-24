@@ -6,9 +6,7 @@ import { Switch } from '@/components/ui/switch';
 import React, { useEffect, useState } from 'react';
 import { toast } from 'sonner';
 
-type Props = {};
-
-const ToogleFirstView = (props: Props) => {
+const ToogleFirstView = () => {
   const [firstView, setFirstView] = useState<undefined | boolean>(undefined);
 
   useEffect(() => {

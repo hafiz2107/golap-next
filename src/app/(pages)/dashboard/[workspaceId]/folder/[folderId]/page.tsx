@@ -10,7 +10,7 @@ import {
 import React from 'react';
 
 type Props = {
-  params: { folderId: string; workspaceId: string };
+  params: Promise<{ folderId: string; workspaceId: string }>;
 };
 
 const FolderPage = async ({ params }: Props) => {

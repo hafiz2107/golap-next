@@ -6,13 +6,11 @@ import { useQueryData } from '@/hooks/useQueryData';
 import { useRouterPush } from '@/hooks/useRouterPush';
 import { CalculteDateDistance, truncateString } from '@/lib/utils';
 import { VideoProps } from '@/types/index.type';
-import { formatDistance } from 'date-fns';
 import { Dot, Download } from 'lucide-react';
 import React from 'react';
 import CopyLink from '../copy-link';
 import RichLink from '../rick-link';
 import TabMenu from '../../tabs';
-import { TabsContent } from '@/components/ui/tabs';
 import AiTools from '../../ai-tools';
 import VideoTranscript from '../../video-transcript';
 import Activities from '../../activities';
@@ -30,7 +28,7 @@ const VideoPreview = ({ videoId }: Props) => {
     getPreviewVideo(videoId)
   );
 
-  const { data: video, status, author } = data as VideoProps;
+  const { data: video, status } = data as VideoProps;
 
   if (status !== 200) pushToRoute('/');
 
@@ -109,7 +107,7 @@ const VideoPreview = ({ videoId }: Props) => {
             triggers={['AI Tools', 'Transcript', 'Activity']}
           >
             <AiTools
-              plan={video.User?.subscription?.plan!}
+              plan={video.User?.subscription?.plan}
               trial={video.User?.trial as boolean}
               videoId={videoId}
             />

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import Loader from '@/components/global/loader';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';

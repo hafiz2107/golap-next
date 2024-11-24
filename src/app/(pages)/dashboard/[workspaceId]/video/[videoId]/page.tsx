@@ -10,9 +10,9 @@ import {
 import React from 'react';
 
 type Props = {
-  params: {
+  params: Promise<{
     videoId: string;
-  };
+  }>;
 };
 
 const PreviewVideoPage = async ({ params }: Props) => {

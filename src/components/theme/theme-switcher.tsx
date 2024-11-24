@@ -7,9 +7,7 @@ import { SystemMode } from './system-mode';
 import { LightMode } from './light-mode';
 import { DarkMode } from './dark-mode';
 
-type Props = {};
-
-const ThemeSwitcher = (props: Props) => {
+const ThemeSwitcher = () => {
   const { setTheme, theme } = useTheme();
 
   return (

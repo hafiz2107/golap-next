@@ -79,9 +79,9 @@ const CommentCard = ({
               videoId={videoId}
               key={r.id}
               author={{
-                image: r.User?.image!,
-                firstname: r.User?.firstname!,
-                lastname: r.User?.lastname!,
+                image: r.User?.image,
+                firstname: r.User?.firstname,
+                lastname: r.User?.lastname,
               }}
             />
           ))}

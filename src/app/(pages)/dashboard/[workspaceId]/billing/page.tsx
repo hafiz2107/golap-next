@@ -1,9 +1,7 @@
 import { getPaymentInfo } from '@/actions/user';
 import React from 'react';
 
-type Props = {};
-
-const BillingPage = async (props: Props) => {
+const BillingPage = async () => {
   // TODO:Wire up payment methods and payment history once PG is integrated
   const payment = await getPaymentInfo();
   return (

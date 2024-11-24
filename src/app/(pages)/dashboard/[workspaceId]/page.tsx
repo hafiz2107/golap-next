@@ -9,7 +9,7 @@ import { TabsContent, TabsTrigger } from '@radix-ui/react-tabs';
 import React from 'react';
 
 type Props = {
-  params: { workspaceId: string };
+  params: Promise<{ workspaceId: string }>;
 };
 
 const WorkspaceDetailsPage = async ({ params }: Props) => {

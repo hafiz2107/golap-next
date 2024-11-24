@@ -8,9 +8,7 @@ import { NotificationsProps } from '@/types/index.type';
 import { User } from 'lucide-react';
 import React from 'react';
 
-type Props = {};
-
-const NotificationsPage = (props: Props) => {
+const NotificationsPage = () => {
   const { data } = useQueryData(
     [QueryKeys.dashboard.userNotifications],
     getNotifications

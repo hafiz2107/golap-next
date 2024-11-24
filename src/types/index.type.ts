@@ -136,8 +136,8 @@ export type VideoProps = {
       trial: boolean;
       subscription: {
         plan: 'PRO' | 'FREE';
-      } | null;
-    } | null;
+      };
+    };
   };
   author: boolean;
 };
@@ -170,10 +170,10 @@ export type CommentRepliesProps = {
     lastname: string;
     createdAt: Date;
     clerkId: string;
-    image: string | null;
+    image: string;
     trial: boolean;
     firstView: boolean;
-  } | null;
+  };
 };
 
 export type VideoCommentProps = {

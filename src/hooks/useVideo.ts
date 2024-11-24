@@ -10,7 +10,7 @@ export const useVideoComment = (videoId: string, commentId?: string) => {
     getUserProfile()
   );
 
-  const { status, data: user } = data as {
+  const { data: user } = data as {
     status: number;
     data: { id: string; image: string };
   };
