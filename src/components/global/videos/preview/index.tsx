@@ -7,13 +7,14 @@ import { useRouterPush } from '@/hooks/useRouterPush';
 import { CalculteDateDistance, truncateString } from '@/lib/utils';
 import { VideoProps } from '@/types/index.type';
 import { Dot, Download } from 'lucide-react';
-import React from 'react';
+import React, { useEffect } from 'react';
 import CopyLink from '../copy-link';
 import RichLink from '../rick-link';
 import TabMenu from '../../tabs';
 import AiTools from '../../ai-tools';
 import VideoTranscript from '../../video-transcript';
 import Activities from '../../activities';
+import { sendEmailForFirstView } from '@/actions/user';
 
 type Props = {
   videoId: string;
@@ -22,8 +23,9 @@ type Props = {
 const VideoPreview = ({ videoId }: Props) => {
   //TODO: update view count if !author
   //TODO: Notify the author about view
-
   const { pushToRoute } = useRouterPush();
+  const notifyFirstView = async () => await sendEmailForFirstView(videoId);
+
   const { data } = useQueryData([QueryKeys.preview.previewVideo], () =>
     getPreviewVideo(videoId)
   );
@@ -37,8 +39,17 @@ const VideoPreview = ({ videoId }: Props) => {
     end: video.createdAt,
   });
 
+  useEffect(() => {
+    if (video.views === 0) notifyFirstView();
+
+    return () => {
+      notifyFirstView();
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
-    <div className="grid grid-cols-1 xl:grid-cols-3  lg:px-20 lg:py-10 overflow-y-auto gap-5">
+    <div className="grid grid-cols-1 xl:grid-cols-3   overflow-y-auto gap-5">
       <div className="flex flex-col lg:col-span-2 gap-y-10">
         <div>
           <div className="flex gap-x-5 items-start justify-between">
