@@ -1,20 +1,21 @@
-'use client';
+"use client";
 
-import { getPreviewVideo } from '@/actions/workspace';
-import { QueryKeys } from '@/contants/query-keys';
-import { useQueryData } from '@/hooks/useQueryData';
-import { useRouterPush } from '@/hooks/useRouterPush';
-import { CalculteDateDistance, truncateString } from '@/lib/utils';
-import { VideoProps } from '@/types/index.type';
-import { Dot, Download } from 'lucide-react';
-import React, { useEffect } from 'react';
-import CopyLink from '../copy-link';
-import RichLink from '../rick-link';
-import TabMenu from '../../tabs';
-import AiTools from '../../ai-tools';
-import VideoTranscript from '../../video-transcript';
-import Activities from '../../activities';
-import { sendEmailForFirstView } from '@/actions/user';
+import { getPreviewVideo } from "@/actions/workspace";
+import { QueryKeys } from "@/contants/query-keys";
+import { useQueryData } from "@/hooks/useQueryData";
+import { useRouterPush } from "@/hooks/useRouterPush";
+import { CalculteDateDistance, truncateString } from "@/lib/utils";
+import { VideoProps } from "@/types/index.type";
+import { Dot, Download } from "lucide-react";
+import React, { useEffect } from "react";
+import CopyLink from "../copy-link";
+import RichLink from "../rick-link";
+import TabMenu from "../../tabs";
+import AiTools from "../../ai-tools";
+import VideoTranscript from "../../video-transcript";
+import Activities from "../../activities";
+import { sendEmailForFirstView } from "@/actions/user";
+import EditVideo from "../edit";
 
 type Props = {
   videoId: string;
@@ -30,9 +31,9 @@ const VideoPreview = ({ videoId }: Props) => {
     getPreviewVideo(videoId)
   );
 
-  const { data: video, status } = data as VideoProps;
+  const { data: video, status, author } = data as VideoProps;
 
-  if (status !== 200) pushToRoute('/');
+  if (status !== 200) pushToRoute("/");
 
   const dateDistance = CalculteDateDistance({
     start: new Date(),
@@ -54,7 +55,7 @@ const VideoPreview = ({ videoId }: Props) => {
         <div>
           <div className="flex gap-x-5 items-start justify-between">
             <h2 className="text-white text-4xl font-bold">{video.title}</h2>
-            {/* {author ? (
+            {author ? (
               <EditVideo
                 videoId={videoId}
                 title={video.title as string}
@@ -62,7 +63,7 @@ const VideoPreview = ({ videoId }: Props) => {
               />
             ) : (
               <></>
-            )} */}
+            )}
           </div>
           <span className="flex gap-x-1 mt-2">
             <p className="text-[#9D9D9D] capitalize">{`${video.User?.firstname} ${video.User?.lastname}`}</p>
@@ -82,7 +83,7 @@ const VideoPreview = ({ videoId }: Props) => {
         <div className="flex flex-col text-2xl gap-y-4">
           <div className="flex gap-x-5 items-center justify-between">
             <p className="text-[#BDBDBD] font-semibold">Description</p>
-            {/* {author ? (
+            {author ? (
               <EditVideo
                 videoId={videoId}
                 title={video.title as string}
@@ -90,7 +91,7 @@ const VideoPreview = ({ videoId }: Props) => {
               />
             ) : (
               <></>
-            )} */}
+            )}
           </div>
           <p className="text-[#9D9D9D] text-lg font-medium">
             {video.description}
@@ -115,7 +116,7 @@ const VideoPreview = ({ videoId }: Props) => {
         <div>
           <TabMenu
             defaulValue="AI Tools"
-            triggers={['AI Tools', 'Transcript', 'Activity']}
+            triggers={["AI Tools", "Transcript", "Activity"]}
           >
             <AiTools
               plan={video.User?.subscription?.plan}
@@ -123,7 +124,7 @@ const VideoPreview = ({ videoId }: Props) => {
               videoId={videoId}
             />
 
-            <VideoTranscript transcript={video.description as string} />
+            <VideoTranscript transcript={video.summery as string} />
             <Activities
               author={video.User?.firstname as string}
               videoId={videoId}

@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-'use server';
+"use server";
 
-import { client } from '@/lib/prisma';
-import { currentUser } from '@clerk/nextjs/server';
+import { client } from "@/lib/prisma";
+import { currentUser } from "@clerk/nextjs/server";
 
 export const verifyAccessToWorkspace = async (workspaceId: string) => {
   try {
@@ -56,7 +56,7 @@ export const getWorkspaceFolders = async (workSpaceId: string) => {
         },
       },
       orderBy: {
-        updatedAt: 'desc',
+        updatedAt: "desc",
       },
     });
 
@@ -110,7 +110,7 @@ export const getAllUserVideos = async (workSpaceId: string) => {
         },
       },
       orderBy: {
-        createdAt: 'desc',
+        createdAt: "desc",
       },
     });
 
@@ -186,7 +186,7 @@ export const createWorkspace = async (name: string) => {
       },
     });
 
-    if (autherized?.subscription?.plan === 'PRO') {
+    if (autherized?.subscription?.plan === "PRO") {
       const workSpace = await client.user.update({
         where: {
           clerkid: user.id,
@@ -195,19 +195,19 @@ export const createWorkspace = async (name: string) => {
           workspace: {
             create: {
               name,
-              type: 'PUBLIC',
+              type: "PUBLIC",
             },
           },
         },
       });
       if (workSpace) {
-        return { status: 201, data: 'Workspace created' };
+        return { status: 201, data: "Workspace created" };
       }
     }
 
-    return { status: 401, data: 'You are not autherised to create a user' };
+    return { status: 401, data: "You are not autherised to create a user" };
   } catch (error) {
-    return { status: 500, data: '' };
+    return { status: 500, data: "" };
   }
 };
 
@@ -222,10 +222,10 @@ export const renameFolders = async (folderId: string, name: string) => {
       },
     });
 
-    if (folder) return { status: 200, data: 'Folder renamed' };
+    if (folder) return { status: 200, data: "Folder renamed" };
     return { status: 400, data: "Folder doesn't exist" };
   } catch (error) {
-    return { status: 500, data: 'Oops something went wrong' };
+    return { status: 500, data: "Oops something went wrong" };
   }
 };
 
@@ -238,16 +238,16 @@ export const createFolder = async (workspaceId: string) => {
       data: {
         folders: {
           create: {
-            name: 'Unititled Folder',
+            name: "Unititled Folder",
           },
         },
       },
     });
 
-    if (isNewFolders) return { status: 200, message: 'New folder created' };
+    if (isNewFolders) return { status: 200, message: "New folder created" };
     return { status: 400, message: "Couldn't create folder" };
   } catch (error) {
-    return { status: 500, message: 'Something went wrong, Please try again' };
+    return { status: 500, message: "Something went wrong, Please try again" };
   }
 };
 
@@ -290,10 +290,10 @@ export const moveVideoLocation = async (
       },
     });
 
-    if (location) return { status: 200, data: 'Folder changed successfully' };
-    return { status: 404, data: 'Workspace/Folder not found' };
+    if (location) return { status: 200, data: "Folder changed successfully" };
+    return { status: 404, data: "Workspace/Folder not found" };
   } catch (error) {
-    return { status: 500, data: 'Something went wrong' };
+    return { status: 500, data: "Something went wrong" };
   }
 };
 
@@ -341,5 +341,31 @@ export const getPreviewVideo = async (videoId: string) => {
     return { status: 404, data: null };
   } catch (error) {
     return { status: 500, data: null };
+  }
+};
+
+export const editVideoInfo = async (
+  videoId: string,
+  title: string,
+  description: string
+) => {
+  try {
+    const user = await currentUser();
+    if (!user) return { status: 401 };
+
+    const video = await client.video.update({
+      where: {
+        id: videoId,
+      },
+      data: {
+        title,
+        description,
+      },
+    });
+
+    if (video) return { status: 200, data: "Video updated" };
+    return { status: 400, data: "Something went wrong" };
+  } catch (error) {
+    return { status: 500, data: "Something went wrong" };
   }
 };
