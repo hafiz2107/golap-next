@@ -26,7 +26,6 @@ import { getNotifications } from '@/actions/user';
 import WorkspacePlaceholder from './workspace-placeholder';
 import GlobalCard from '../global-card';
 import { Button } from '@/components/ui/button';
-import Loader from '../loader';
 import {
   Sheet,
   SheetContent,
